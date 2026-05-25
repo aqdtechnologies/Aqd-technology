@@ -1,1481 +1,1771 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AQD Technology — AQD Technology — Five Inventions. One Mind.</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<style>
-/* ═══════════════════════════════════════════
-   DESIGN SYSTEM — Pittsburgh Steel meets
-   Patent Office. Editorial-industrial.
-   Dark amber on near-black. Grid-breaking.
-═══════════════════════════════════════════ */
-:root {
-  --black:  #050608;
-  --dark:   #0a0c0f;
-  --panel:  #111318;
-  --line:   rgba(210,170,60,0.15);
-  --amber:  #d2aa3c;
-  --amber2: #f0cc6e;
-  --rust:   #b85c2a;
-  --cream:  #f0ebe0;
-  --fog:    rgba(240,235,224,0.6);
-  --mist:   rgba(240,235,224,0.3);
-  --dim:    rgba(240,235,224,0.12);
-  --ff-display: 'DM Serif Display', Georgia, serif;
-  --ff-body:    'Libre Baskerville', Georgia, serif;
-  --ff-mono:    'DM Mono', 'Courier New', monospace;
-}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{
-  background:var(--black);
-  color:var(--cream);
-  font-family:var(--ff-body);
-  overflow-x:hidden;
-  cursor:none;
-}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AQD Technology — Investor Analysis Report</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg: #0a0e1a;
+      --surface: #111827;
+      --surface2: #1a2235;
+      --border: #1e2d45;
+      --accent: #f0c040;
+      --accent2: #3b82f6;
+      --green: #22c55e;
+      --red: #ef4444;
+      --orange: #f97316;
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --heading: #f8fafc;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
 
-/* ── CURSOR ── */
-#cur,#cur2{position:fixed;top:0;left:0;z-index:9999;pointer-events:none;border-radius:50%;transform:translate(-50%,-50%)}
-#cur{width:8px;height:8px;background:var(--amber);mix-blend-mode:difference}
-#cur2{width:32px;height:32px;border:1px solid var(--amber);opacity:.5;transition:width .2s,height .2s,opacity .2s}
-body:has(a:hover) #cur2,body:has(button:hover) #cur2{width:50px;height:50px;opacity:.9}
+    /* ── HEADER ── */
+    header {
+      background: linear-gradient(135deg, #0a0e1a 0%, #0f1e35 60%, #0a1628 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 48px 24px 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    header::before {
+      content: '';
+      position: absolute;
+      top: -60px; left: 50%; transform: translateX(-50%);
+      width: 600px; height: 300px;
+      background: radial-gradient(ellipse, rgba(240,192,64,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .badge {
+      display: inline-block;
+      background: rgba(240,192,64,0.12);
+      border: 1px solid rgba(240,192,64,0.3);
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 4px 14px;
+      border-radius: 20px;
+      margin-bottom: 20px;
+    }
+    header h1 {
+      font-size: clamp(28px, 5vw, 52px);
+      font-weight: 800;
+      color: var(--heading);
+      letter-spacing: -1px;
+      margin-bottom: 8px;
+    }
+    header h1 span { color: var(--accent); }
+    header p.subtitle {
+      font-size: 16px;
+      color: var(--muted);
+      max-width: 560px;
+      margin: 0 auto 28px;
+    }
+    .header-meta {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 20px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .header-meta span { display: flex; align-items: center; gap: 6px; }
+    .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); display: inline-block; }
 
-/* ── NOISE GRAIN OVERLAY ── */
-body::after{
-  content:'';position:fixed;inset:0;z-index:9997;pointer-events:none;
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");
-  opacity:.4;
-}
+    /* ── NAV ── */
+    nav {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+      display: flex;
+      gap: 0;
+      overflow-x: auto;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      padding: 16px 18px;
+      border-bottom: 2px solid transparent;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+    nav a:hover, nav a.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
 
-/* ── CANVAS ── */
-#bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;touch-action:none;opacity:.2}
+    /* ── LAYOUT ── */
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    section { padding: 56px 0; border-bottom: 1px solid var(--border); }
+    section:last-child { border-bottom: none; }
+    .section-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+    h2 {
+      font-size: clamp(22px, 3vw, 32px);
+      font-weight: 800;
+      color: var(--heading);
+      margin-bottom: 8px;
+      letter-spacing: -0.5px;
+    }
+    h3 { font-size: 18px; font-weight: 700; color: var(--heading); margin-bottom: 8px; }
+    p { color: var(--text); margin-bottom: 14px; }
+    p:last-child { margin-bottom: 0; }
 
-/* ── LAYOUT ── */
-.page{position:relative;width:100%;min-height:100vh;z-index:2;display:none}
-.page.active{display:block}
+    /* ── STAT CARDS ── */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 16px;
+      margin-top: 32px;
+    }
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px 20px;
+      text-align: center;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+    .stat-card:hover { transform: translateY(-2px); border-color: rgba(240,192,64,0.3); }
+    .stat-card .value {
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .stat-card .label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
 
-/* ── NAV ── */
-nav{
-  position:fixed;top:0;width:100%;z-index:200;
-  display:flex;justify-content:space-between;align-items:center;
-  padding:24px 56px;
-  background:linear-gradient(to bottom,rgba(5,6,8,.95),transparent);
-  backdrop-filter:blur(12px);
-  border-bottom:1px solid var(--line);
-}
-.nav-brand{
-  display:flex;flex-direction:column;gap:2px;cursor:pointer;
-  text-decoration:none;
-}
-.nav-brand .logo{
-  font-family:var(--ff-display);
-  font-size:1.6rem;
-  color:var(--amber);
-  line-height:1;
-}
-.nav-brand .sub{
-  font-family:var(--ff-mono);
-  font-size:.5rem;
-  letter-spacing:4px;
-  text-transform:uppercase;
-  color:var(--mist);
-}
-.nav-links{display:flex;gap:0;list-style:none}
-.nav-links li a{
-  font-family:var(--ff-mono);
-  font-size:.6rem;
-  letter-spacing:3px;
-  text-transform:uppercase;
-  color:var(--mist);
-  text-decoration:none;
-  padding:8px 18px;
-  border:1px solid transparent;
-  transition:color .3s,border-color .3s;
-  cursor:pointer;
-  display:block;
-}
-.nav-links li a:hover,.nav-links li a.active{color:var(--amber);border-color:var(--line)}
+    /* ── INVENTION CARDS ── */
+    .invention-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 20px;
+      margin-top: 32px;
+    }
+    .invention-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 28px;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+    .invention-card:hover { transform: translateY(-2px); border-color: rgba(59,130,246,0.4); }
+    .invention-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+    }
+    .invention-card.env::before { background: linear-gradient(90deg, #22c55e, #3b82f6); }
+    .invention-card.marine::before { background: linear-gradient(90deg, #3b82f6, #06b6d4); }
+    .invention-card.tools::before { background: linear-gradient(90deg, #f97316, #f0c040); }
+    .invention-card .docket {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .invention-card h3 { font-size: 17px; margin-bottom: 6px; }
+    .invention-card .tagline {
+      font-size: 13px;
+      color: var(--accent);
+      font-style: italic;
+      margin-bottom: 14px;
+    }
+    .invention-card p { font-size: 14px; color: var(--muted); }
+    .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px; }
+    .tag {
+      background: rgba(59,130,246,0.1);
+      border: 1px solid rgba(59,130,246,0.2);
+      color: #93c5fd;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 20px;
+      letter-spacing: 0.5px;
+    }
+    .tag.green { background: rgba(34,197,94,0.1); border-color: rgba(34,197,94,0.2); color: #86efac; }
+    .tag.orange { background: rgba(249,115,22,0.1); border-color: rgba(249,115,22,0.2); color: #fdba74; }
 
-/* ── PAGE TRANSITIONS ── */
-.page{opacity:0;transition:opacity .4s}
-.page.active{opacity:1}
+    /* ── CHARTS ── */
+    .chart-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+      margin-top: 32px;
+    }
+    .chart-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 28px;
+    }
+    .chart-card h3 { font-size: 15px; margin-bottom: 4px; }
+    .chart-card .chart-sub { font-size: 12px; color: var(--muted); margin-bottom: 20px; }
+    .chart-wrap { position: relative; height: 260px; }
+    .chart-wrap-sm { position: relative; height: 200px; }
 
-/* ══════════════════════════════
-   PAGE 1 — HOME
-══════════════════════════════ */
-#home{
-  min-height:100vh;
-  padding:0 56px;
-  display:grid;
-  grid-template-rows:1fr auto;
-  align-items:end;
-  padding-bottom:80px;
-  position:relative;
-}
-.home-top{
-  padding-top:180px;
-  max-width:1000px;
-}
-.home-kicker{
-  font-family:var(--ff-mono);
-  font-size:.6rem;
-  letter-spacing:5px;
-  text-transform:uppercase;
-  color:var(--amber);
-  margin-bottom:40px;
-  opacity:0;animation:fadeUp .8s .2s forwards;
-}
-.home-headline{
-  font-family:var(--ff-display);
-  font-size:clamp(64px,10vw,148px);
-  line-height:.92;
-  color:var(--cream);
-  margin-bottom:48px;
-  opacity:0;animation:fadeUp .9s .4s forwards;
-}
-.home-headline .em{
-  font-style:italic;
-  color:var(--amber);
-}
-.home-deck{
-  font-family:var(--ff-body);
-  font-size:clamp(1rem,1.6vw,1.3rem);
-  line-height:1.75;
-  color:var(--fog);
-  max-width:640px;
-  font-style:italic;
-  opacity:0;animation:fadeUp .8s .7s forwards;
-}
-.home-stats{
-  display:flex;gap:0;margin-top:72px;
-  border-top:1px solid var(--line);
-  opacity:0;animation:fadeUp .8s .9s forwards;
-}
-.stat{
-  padding:28px 48px 28px 0;
-  border-right:1px solid var(--line);
-  margin-right:48px;
-}
-.stat:last-child{border-right:none;margin-right:0}
-.stat .n{
-  font-family:var(--ff-display);
-  font-size:3.2rem;
-  color:var(--amber);
-  line-height:1;
-  display:block;
-}
-.stat .l{
-  font-family:var(--ff-mono);
-  font-size:.5rem;
-  letter-spacing:3px;
-  text-transform:uppercase;
-  color:var(--mist);
-  margin-top:6px;
-  display:block;
-}
-.home-cta{
-  display:flex;gap:16px;margin-top:56px;
-  opacity:1;
-}
+    /* ── MARKET TABLE ── */
+    .market-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      margin-top: 32px;
+    }
+    .market-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 28px;
+      position: relative;
+    }
+    .market-card .market-size {
+      font-size: 36px;
+      font-weight: 800;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+    .market-card .market-name {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+    .market-card p { font-size: 13px; color: var(--muted); }
+    .market-card .differentiator {
+      margin-top: 14px;
+      padding: 12px;
+      background: rgba(240,192,64,0.06);
+      border: 1px solid rgba(240,192,64,0.15);
+      border-radius: 8px;
+      font-size: 12px;
+      color: #fcd34d;
+    }
 
-/* Pittsburgh identifier strip */
-.pgh-strip{
-  border-top:1px solid var(--line);
-  padding:20px 0 0;
-  display:flex;justify-content:space-between;align-items:center;
-  opacity:0;animation:fadeIn .8s 1.5s forwards;
-}
-.pgh-strip p{
-  font-family:var(--ff-mono);
-  font-size:.55rem;
-  letter-spacing:3px;
-  text-transform:uppercase;
-  color:var(--mist);
-}
-.pgh-strip .westinghouse{
-  font-family:var(--ff-body);
-  font-style:italic;
-  font-size:.7rem;
-  color:var(--amber);
-  opacity:.7;
-}
+    /* ── PATENT TABLE ── */
+    .table-wrap { overflow-x: auto; margin-top: 28px; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    thead tr { background: var(--surface2); }
+    th {
+      padding: 12px 16px;
+      text-align: left;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--muted);
+      border-bottom: 1px solid var(--border);
+    }
+    td {
+      padding: 13px 16px;
+      border-bottom: 1px solid rgba(30,45,69,0.6);
+      color: var(--text);
+    }
+    tr:hover td { background: rgba(255,255,255,0.02); }
+    .status-new {
+      background: rgba(34,197,94,0.12);
+      border: 1px solid rgba(34,197,94,0.25);
+      color: #86efac;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 20px;
+      letter-spacing: 1px;
+    }
+    .status-dup {
+      background: rgba(249,115,22,0.12);
+      border: 1px solid rgba(249,115,22,0.25);
+      color: #fdba74;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 20px;
+      letter-spacing: 1px;
+    }
+    .type-np {
+      background: rgba(240,192,64,0.12);
+      border: 1px solid rgba(240,192,64,0.25);
+      color: #fcd34d;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 20px;
+    }
 
-/* Scroll line */
-.scroll-hint{
-  position:absolute;right:56px;bottom:40px;
-  display:flex;flex-direction:column;align-items:center;gap:10px;
-  opacity:0;animation:fadeIn 1s 2s forwards;
-}
-.scroll-hint span{
-  font-family:var(--ff-mono);font-size:.45rem;
-  letter-spacing:4px;color:var(--mist);
-  writing-mode:vertical-rl;text-transform:uppercase;
-}
-.scroll-line{width:1px;height:56px;background:linear-gradient(to bottom,var(--amber),transparent);animation:pulse 2s infinite}
+    /* ── SWOT ── */
+    .swot-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 32px;
+    }
+    @media (max-width: 640px) { .swot-grid { grid-template-columns: 1fr; } }
+    .swot-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+    }
+    .swot-card .swot-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .swot-card.s .swot-label { color: var(--green); }
+    .swot-card.w .swot-label { color: var(--red); }
+    .swot-card.o .swot-label { color: var(--accent2); }
+    .swot-card.t .swot-label { color: var(--orange); }
+    .swot-card ul { list-style: none; }
+    .swot-card ul li {
+      font-size: 13px;
+      color: var(--muted);
+      padding: 6px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+    .swot-card ul li:last-child { border-bottom: none; }
+    .swot-card ul li::before { content: '→'; font-size: 11px; margin-top: 2px; flex-shrink: 0; }
+    .swot-card.s ul li::before { color: var(--green); }
+    .swot-card.w ul li::before { color: var(--red); }
+    .swot-card.o ul li::before { color: var(--accent2); }
+    .swot-card.t ul li::before { color: var(--orange); }
 
-/* ══════════════════════════════
-   PAGE 2 — INVENTIONS
-══════════════════════════════ */
-#inventions{padding:120px 56px 100px}
-.page-hero{
-  display:grid;grid-template-columns:1fr 2fr;
-  gap:80px;align-items:end;
-  margin-bottom:80px;padding-bottom:60px;
-  border-bottom:1px solid var(--line);
-}
-.page-title{
-  font-family:var(--ff-display);
-  font-size:clamp(52px,7vw,100px);
-  line-height:.9;
-  color:var(--cream);
-}
-.page-title em{color:var(--amber);font-style:italic}
-.page-intro{
-  font-size:1.05rem;
-  line-height:1.8;
-  color:var(--fog);
-  font-weight:400;
-}
+    /* ── RISK METER ── */
+    .risk-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-top: 32px;
+    }
+    .risk-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+    }
+    .risk-card .risk-name { font-size: 13px; font-weight: 600; color: var(--heading); margin-bottom: 10px; }
+    .risk-bar-wrap { background: rgba(255,255,255,0.06); border-radius: 4px; height: 6px; overflow: hidden; margin-bottom: 6px; }
+    .risk-bar { height: 100%; border-radius: 4px; transition: width 1s ease; }
+    .risk-bar.high { background: linear-gradient(90deg, #ef4444, #f97316); }
+    .risk-bar.medium { background: linear-gradient(90deg, #f97316, #f0c040); }
+    .risk-bar.low { background: linear-gradient(90deg, #22c55e, #3b82f6); }
+    .risk-card .risk-level { font-size: 11px; font-weight: 700; letter-spacing: 1px; }
+    .risk-card .risk-level.high { color: #f87171; }
+    .risk-card .risk-level.medium { color: #fb923c; }
+    .risk-card .risk-level.low { color: #4ade80; }
+    .risk-card .risk-desc { font-size: 12px; color: var(--muted); margin-top: 6px; }
 
-/* Portfolio groups */
-.portfolio-group{margin-bottom:80px}
-.group-header{
-  display:flex;align-items:center;gap:24px;
-  margin-bottom:40px;padding-bottom:20px;
-  border-bottom:1px solid var(--line);
-}
-.group-label{
-  font-family:var(--ff-mono);
-  font-size:.6rem;letter-spacing:4px;
-  text-transform:uppercase;color:var(--amber);
-}
-.group-title{
-  font-family:var(--ff-display);
-  font-size:1.6rem;
-  color:var(--cream);
-}
-.group-tag{
-  margin-left:auto;
-  font-family:var(--ff-mono);font-size:.5rem;
-  letter-spacing:2px;text-transform:uppercase;
-  color:var(--mist);
-  border:1px solid var(--line);
-  padding:4px 12px;
-}
+    /* ── VERDICT ── */
+    .verdict-box {
+      background: linear-gradient(135deg, var(--surface) 0%, var(--surface2) 100%);
+      border: 1px solid rgba(240,192,64,0.25);
+      border-radius: 16px;
+      padding: 36px;
+      margin-top: 32px;
+      position: relative;
+      overflow: hidden;
+    }
+    .verdict-box::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), #3b82f6, var(--accent));
+    }
+    .verdict-box h3 { font-size: 22px; margin-bottom: 14px; }
+    .verdict-box p { font-size: 15px; color: var(--muted); margin-bottom: 14px; }
+    .verdict-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+    .verdict-tag {
+      background: rgba(240,192,64,0.1);
+      border: 1px solid rgba(240,192,64,0.25);
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 6px 14px;
+      border-radius: 20px;
+    }
 
-/* Invention cards */
-.inv-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2px}
-.inv-grid.single{grid-template-columns:1fr}
-.inv-card{
-  background:var(--panel);
-  border:1px solid var(--line);
-  padding:44px;
-  position:relative;overflow:hidden;
-  cursor:pointer;
-  transition:border-color .4s,background .4s;
-}
-.inv-card:hover{border-color:rgba(210,170,60,.4);background:#141820}
-.inv-card.flagship{
-  grid-column:span 2;
-  display:grid;grid-template-columns:3fr 2fr;
-  gap:60px;align-items:center;
-}
-.card-glow{
-  position:absolute;top:-100px;right:-100px;
-  width:280px;height:280px;
-  background:radial-gradient(circle,rgba(210,170,60,.1),transparent 70%);
-  pointer-events:none;opacity:0;transition:opacity .4s;
-}
-.inv-card:hover .card-glow{opacity:1}
-.card-num{
-  font-family:var(--ff-mono);font-size:.55rem;
-  letter-spacing:4px;text-transform:uppercase;
-  color:var(--amber);margin-bottom:20px;
-}
-.card-name{
-  font-family:var(--ff-display);
-  font-size:clamp(22px,2.5vw,36px);
-  line-height:1;color:var(--cream);
-  margin-bottom:12px;
-}
-.card-sub{
-  font-family:var(--ff-body);font-style:italic;
-  font-size:.85rem;color:var(--amber);
-  opacity:.8;margin-bottom:18px;
-}
-.card-body{
-  font-size:.9rem;line-height:1.75;
-  color:var(--mist);margin-bottom:28px;
-}
-.card-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:28px}
-.tag{
-  font-family:var(--ff-mono);font-size:.5rem;
-  letter-spacing:2px;text-transform:uppercase;
-  color:var(--amber);
-  border:1px solid rgba(210,170,60,.25);
-  padding:4px 10px;border-radius:1px;
-}
-.card-foot{
-  font-family:var(--ff-mono);font-size:.55rem;
-  letter-spacing:1px;color:var(--dim);
-  border-top:1px solid var(--line);padding-top:20px;
-}
-.card-foot span{color:rgba(210,170,60,.6)}
+    /* ── FOOTER ── */
+    footer {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 32px 24px;
+      text-align: center;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    footer a { color: var(--accent); text-decoration: none; }
 
-/* Visual accents for flagship cards */
-.inv-visual{display:flex;align-items:center;justify-content:center}
-.orbit-wrap{position:relative;width:200px;height:200px}
-.orbit{
-  position:absolute;top:0;left:0;
-  width:100%;height:100%;border-radius:50%;
-  border:1px dashed rgba(210,170,60,.2);
-}
-.orbit:nth-child(2){inset:22px;border-color:rgba(210,170,60,.35);animation:spin 12s linear infinite reverse}
-.orbit:nth-child(3){inset:44px;border-color:rgba(210,170,60,.55);animation:spin 7s linear infinite}
-.orbit-core{
-  position:absolute;inset:66px;border-radius:50%;
-  border:2px solid var(--amber);
-  background:radial-gradient(circle,rgba(210,170,60,.25),transparent);
-  display:flex;align-items:center;justify-content:center;
-  flex-direction:column;gap:4px;
-}
-.orbit-core span{font-size:1.6rem}
-.orbit-core small{
-  font-family:var(--ff-mono);font-size:.4rem;
-  letter-spacing:2px;text-transform:uppercase;
-  color:var(--amber);
-}
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .invention-grid { grid-template-columns: 1fr; }
+      .chart-grid { grid-template-columns: 1fr; }
+    }
 
-/* WaterGuard note */
-.waterguard-note{
-  background:rgba(184,92,42,.08);
-  border:1px solid rgba(184,92,42,.3);
-  border-left:3px solid var(--rust);
-  padding:16px 20px;margin-top:20px;
-  font-family:var(--ff-mono);font-size:.6rem;
-  letter-spacing:1px;color:rgba(240,235,224,.5);
-  border-radius:2px;
-}
-.waterguard-note strong{color:var(--rust)}
+    /* ── SCROLL ANIMATION ── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
 
-/* ══════════════════════════════
-   PAGE 3 — ORIGIN STORY
-══════════════════════════════ */
-#story{padding:120px 56px 100px}
-.story-layout{
-  display:grid;grid-template-columns:280px 1fr;
-  gap:100px;align-items:start;
-  max-width:1100px;
-}
-.story-sidebar{position:sticky;top:120px}
-.story-chapter-list{list-style:none;margin-top:40px}
-.story-chapter-list li{
-  font-family:var(--ff-mono);font-size:.55rem;
-  letter-spacing:2px;text-transform:uppercase;
-  color:var(--mist);padding:10px 0;
-  border-bottom:1px solid var(--line);
-  cursor:pointer;transition:color .3s;
-}
-.story-chapter-list li:hover,.story-chapter-list li.active{color:var(--amber)}
-.story-quote-pull{
-  margin-top:40px;padding:24px;
-  border:1px solid var(--line);
-  font-family:var(--ff-display);
-  font-style:italic;font-size:1rem;
-  color:var(--amber);line-height:1.5;
-}
-.story-body h2{
-  font-family:var(--ff-display);
-  font-size:clamp(32px,4vw,56px);
-  line-height:1.1;color:var(--cream);
-  margin-bottom:36px;
-  padding-bottom:24px;
-  border-bottom:1px solid var(--line);
-}
-.story-body h3{
-  font-family:var(--ff-mono);
-  font-size:.6rem;letter-spacing:4px;
-  text-transform:uppercase;color:var(--amber);
-  margin:48px 0 20px;
-}
-.story-body p{
-  font-size:1.05rem;line-height:1.85;
-  color:var(--fog);margin-bottom:24px;
-}
-.story-body p strong{color:var(--cream)}
-.story-body blockquote{
-  border-left:3px solid var(--amber);
-  padding:4px 0 4px 32px;
-  margin:40px 0;
-  font-family:var(--ff-display);
-  font-style:italic;
-  font-size:clamp(1.2rem,2vw,1.7rem);
-  color:var(--cream);line-height:1.4;
-}
-.story-body ul{
-  margin:24px 0 24px 24px;
-  color:var(--fog);
-}
-.story-body ul li{
-  font-size:.95rem;line-height:1.8;
-  margin-bottom:10px;
-  padding-left:8px;
-}
-.story-body ul li::marker{color:var(--amber)}
-.stat-callout{
-  background:var(--panel);border:1px solid var(--line);
-  padding:36px;margin:40px 0;
-  display:grid;grid-template-columns:auto 1fr;gap:32px;align-items:center;
-}
-.stat-callout .big-n{
-  font-family:var(--ff-display);
-  font-size:5rem;color:var(--amber);line-height:1;
-}
-.stat-callout p{font-size:.95rem;line-height:1.7;color:var(--fog)}
+    /* ── TOOLTIP ── */
+    [data-tooltip] { position: relative; cursor: help; }
+    [data-tooltip]::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      bottom: 100%; left: 50%; transform: translateX(-50%);
+      background: #1e2d45;
+      color: var(--text);
+      font-size: 12px;
+      padding: 6px 10px;
+      border-radius: 6px;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
+      z-index: 10;
+    }
+    [data-tooltip]:hover::after { opacity: 1; }
 
-/* ══════════════════════════════
-   PAGE 4 — AQD METHOD
-══════════════════════════════ */
-#method{padding:120px 56px 100px}
-.method-hero{
-  display:grid;grid-template-columns:1fr 1fr;
-  gap:80px;margin-bottom:100px;
-  padding-bottom:80px;border-bottom:1px solid var(--line);
-  align-items:center;
-}
-.method-intro{
-  font-size:1.1rem;line-height:1.8;
-  color:var(--fog);
-}
-.method-intro p{margin-bottom:20px}
-.method-steps{display:grid;gap:2px}
-.step{
-  background:var(--panel);border:1px solid var(--line);
-  padding:40px 48px;
-  display:grid;grid-template-columns:100px 1fr;
-  gap:32px;align-items:start;
-  transition:border-color .4s;cursor:default;
-}
-.step:hover{border-color:rgba(210,170,60,.4)}
-.step-num{
-  font-family:var(--ff-display);
-  font-size:4rem;color:var(--dim);line-height:1;
-  transition:color .4s;
-}
-.step:hover .step-num{color:rgba(210,170,60,.4)}
-.step-name{
-  font-family:var(--ff-display);
-  font-size:1.5rem;color:var(--cream);
-  margin-bottom:12px;
-}
-.step-body{
-  font-size:.9rem;line-height:1.75;
-  color:var(--mist);
-}
-.step-body strong{color:var(--amber)}
+    /* ── TABS ── */
+    .tab-group { display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; }
+    .tab-btn {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 600;
+      padding: 8px 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .tab-btn.active, .tab-btn:hover {
+      background: rgba(240,192,64,0.1);
+      border-color: rgba(240,192,64,0.3);
+      color: var(--accent);
+    }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
 
-/* ══════════════════════════════
-   PAGE 5 — INVESTORS
-══════════════════════════════ */
-#investors{padding:120px 56px 100px}
-.inv-hero-split{
-  display:grid;grid-template-columns:1fr 1fr;
-  gap:80px;align-items:start;
-  margin-bottom:80px;padding-bottom:80px;
-  border-bottom:1px solid var(--line);
-}
-.market-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-bottom:80px}
-.market-card{
-  background:var(--panel);border:1px solid var(--line);
-  padding:36px;
-}
-.market-card .mkt-n{
-  font-family:var(--ff-display);
-  font-size:2.8rem;color:var(--amber);line-height:1;
-  margin-bottom:10px;
-}
-.market-card p{font-size:.85rem;line-height:1.7;color:var(--mist)}
-.market-card h4{
-  font-family:var(--ff-mono);font-size:.55rem;
-  letter-spacing:3px;text-transform:uppercase;
-  color:var(--amber);margin-bottom:12px;
-}
+    /* ── TIMELINE ── */
+    .timeline { margin-top: 28px; position: relative; }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 20px; top: 0; bottom: 0;
+      width: 2px;
+      background: var(--border);
+    }
+    .timeline-item {
+      display: flex;
+      gap: 20px;
+      padding: 0 0 28px 0;
+      position: relative;
+    }
+    .timeline-dot {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: var(--surface2);
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--accent);
+      flex-shrink: 0;
+      z-index: 1;
+    }
+    .timeline-content {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px 22px;
+      flex: 1;
+    }
+    .timeline-content .tl-date { font-size: 11px; font-weight: 700; letter-spacing: 1px; color: var(--accent); margin-bottom: 6px; }
+    .timeline-content h4 { font-size: 15px; font-weight: 700; color: var(--heading); margin-bottom: 6px; }
+    .timeline-content p { font-size: 13px; color: var(--muted); margin: 0; }
 
-/* Patent table */
-.ptable-wrap{margin-bottom:80px;overflow-x:auto}
-.ptable{width:100%;border-collapse:collapse}
-.ptable thead th{
-  font-family:var(--ff-mono);font-size:.55rem;
-  letter-spacing:3px;text-transform:uppercase;
-  color:var(--amber);text-align:left;
-  padding:14px 18px;border-bottom:1px solid var(--line);
-}
-.ptable tbody tr{border-bottom:1px solid var(--line);transition:background .3s}
-.ptable tbody tr:hover{background:var(--panel)}
-.ptable td{
-  padding:18px 18px;
-  font-family:var(--ff-mono);font-size:.7rem;
-  color:var(--fog);letter-spacing:1px;
-}
-.ptable td:first-child{color:var(--amber)}
-.badge{
-  display:inline-block;
-  font-size:.5rem;letter-spacing:2px;padding:3px 9px;
-  text-transform:uppercase;border-radius:1px;
-  background:rgba(210,170,60,.1);
-  color:var(--amber);border:1px solid rgba(210,170,60,.2);
-}
-.badge.dup{
-  background:rgba(184,92,42,.1);
-  color:var(--rust);border-color:rgba(184,92,42,.2);
-}
+    /* ── COMPETITOR TABLE ── */
+    .comp-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      margin-top: 28px;
+    }
+    .comp-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 22px;
+    }
+    .comp-card .comp-name { font-size: 15px; font-weight: 700; color: var(--heading); margin-bottom: 4px; }
+    .comp-card .comp-type { font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
+    .comp-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 12px; }
+    .comp-row:last-child { border-bottom: none; }
+    .comp-row .feat { color: var(--muted); }
+    .comp-row .has { color: var(--green); font-weight: 600; }
+    .comp-row .no { color: var(--red); font-weight: 600; }
+    .comp-row .partial { color: var(--orange); font-weight: 600; }
 
-/* CTA strip */
-.cta-strip{
-  display:grid;grid-template-columns:2fr 1fr;
-  gap:40px;align-items:center;
-  background:var(--panel);border:1px solid var(--line);
-  padding:48px;margin-top:60px;
-}
-.cta-strip h3{
-  font-family:var(--ff-display);
-  font-size:2rem;color:var(--cream);margin-bottom:12px;
-}
-.cta-strip p{font-size:.95rem;line-height:1.7;color:var(--fog)}
-.cta-btns{display:flex;flex-direction:column;gap:12px}
-
-/* ══════════════════════════════
-   PAGE 6 — CONTACT
-══════════════════════════════ */
-#contact{
-  padding:120px 56px 100px;
-  display:grid;grid-template-columns:1fr 1fr;
-  gap:100px;align-items:start;
-}
-.contact-left h2{
-  font-family:var(--ff-display);
-  font-size:clamp(42px,6vw,80px);
-  line-height:.95;color:var(--cream);
-  margin-bottom:36px;
-}
-.contact-left h2 em{color:var(--amber);font-style:italic}
-.contact-left p{
-  font-size:1rem;line-height:1.8;
-  color:var(--fog);margin-bottom:20px;
-}
-.contact-info{margin-top:48px}
-.contact-info .ci{
-  display:flex;align-items:center;gap:20px;
-  padding:16px 0;border-bottom:1px solid var(--line);
-}
-.ci-label{
-  font-family:var(--ff-mono);font-size:.55rem;
-  letter-spacing:3px;text-transform:uppercase;
-  color:var(--amber);width:100px;flex-shrink:0;
-}
-.ci-val{
-  font-family:var(--ff-body);font-size:.9rem;
-  color:var(--fog);
-}
-.ci-val a{color:var(--fog);text-decoration:none;transition:color .3s}
-.ci-val a:hover{color:var(--amber)}
-.contact-right{padding-top:40px}
-.form-group{margin-bottom:24px}
-.form-group label{
-  display:block;
-  font-family:var(--ff-mono);font-size:.55rem;
-  letter-spacing:3px;text-transform:uppercase;
-  color:var(--amber);margin-bottom:10px;
-}
-.form-group input,
-.form-group textarea,
-.form-group select{
-  width:100%;
-  background:var(--panel);
-  border:1px solid var(--line);
-  color:var(--cream);
-  font-family:var(--ff-body);font-size:.9rem;
-  padding:14px 18px;
-  outline:none;
-  transition:border-color .3s;
-}
-.form-group input:focus,
-.form-group textarea:focus,
-.form-group select:focus{border-color:rgba(210,170,60,.5)}
-.form-group textarea{min-height:120px;resize:vertical}
-.form-group select{appearance:none;cursor:pointer}
-.form-group select option{background:var(--dark)}
-.form-note{
-  font-family:var(--ff-mono);font-size:.55rem;
-  letter-spacing:1px;color:var(--mist);
-  margin-top:8px;
-}
-
-/* ══════════════════════════════
-   SHARED COMPONENTS
-══════════════════════════════ */
-.btn-primary{position:relative;z-index:10;pointer-events:auto;-webkit-tap-highlight-color:rgba(210,170,60,0.3);
-  font-family:var(--ff-mono);font-size:.6rem;
-  letter-spacing:3px;text-transform:uppercase;
-  background:var(--amber);color:var(--black);
-  border:none;padding:16px 38px;
-  cursor:pointer;transition:background .3s,transform .2s;
-  display:inline-block;text-decoration:none;
-}
-.btn-primary:hover{background:var(--amber2);transform:translateY(-2px)}
-.btn-ghost{position:relative;z-index:10;pointer-events:auto;-webkit-tap-highlight-color:rgba(210,170,60,0.2);
-  font-family:var(--ff-mono);font-size:.6rem;
-  letter-spacing:3px;text-transform:uppercase;
-  background:transparent;color:var(--amber);
-  border:1px solid rgba(210,170,60,.4);
-  padding:15px 38px;cursor:pointer;
-  transition:border-color .3s,color .3s;
-  display:inline-block;text-decoration:none;
-}
-.btn-ghost:hover{border-color:var(--amber);color:var(--amber2)}
-
-/* Reveal animations */
-.reveal{opacity:0;transform:translateY(28px);transition:opacity .8s,transform .8s}
-.reveal *{color:inherit}
-.reveal.vis *{color:revert}
-.reveal.vis{opacity:1;transform:none}
-.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}
-.d4{transition-delay:.4s}.d5{transition-delay:.5s}.d6{transition-delay:.6s}
-
-/* ── FOOTER ── */
-.site-footer{
-  background:var(--dark);
-  border-top:1px solid var(--line);
-  padding:40px 56px;
-  display:flex;justify-content:space-between;align-items:center;
-  margin-top:80px;
-}
-.site-footer p{
-  font-family:var(--ff-mono);font-size:.5rem;
-  letter-spacing:2px;text-transform:uppercase;
-  color:var(--mist);
-}
-
-/* KEYFRAMES */
-@keyframes fadeUp{from{opacity:0;transform:translateY(36px)}to{opacity:1;transform:none}}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-@keyframes spin{to{transform:rotate(360deg)}}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-
-/* ── RESPONSIVE ── */
-@media(max-width:900px){
-  nav{padding:18px 24px}
-  .nav-links{display:none}
-  .page{padding-left:24px!important;padding-right:24px!important;padding-bottom:80px!important}
-  .nav-hamburger{display:flex;flex-direction:column;gap:5px;cursor:pointer;padding:8px;z-index:200}
-  .nav-hamburger span{display:block;width:24px;height:2px;background:var(--amber);transition:all .3s}
-  .nav-hamburger.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
-  .nav-hamburger.open span:nth-child(2){opacity:0}
-  .nav-hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
-  .mobile-menu{
-    display:none;position:fixed;top:0;left:0;right:0;bottom:0;
-    background:rgba(5,6,8,0.97);z-index:150;
-    flex-direction:column;align-items:center;justify-content:center;gap:0;
-  }
-  .mobile-menu.open{display:flex}
-  .mobile-menu a{
-    display:block;width:100%;text-align:center;padding:22px 40px;
-    font-size:1.3rem;font-weight:600;color:var(--fog);text-decoration:none;
-    letter-spacing:0.05em;border-bottom:1px solid var(--line);transition:color .2s,background .2s;
-  }
-  .mobile-menu a:first-child{border-top:1px solid var(--line)}
-  .mobile-menu a:hover,.mobile-menu a.active{color:var(--amber);background:rgba(210,170,60,0.05)}
-  .bottom-nav{
-    display:flex;position:fixed;bottom:0;left:0;right:0;
-    background:rgba(5,6,8,0.97);border-top:1px solid var(--line);
-    z-index:140;padding:0;
-  }
-  .bottom-nav a{
-    flex:1;display:flex;flex-direction:column;align-items:center;
-    justify-content:center;padding:10px 4px 8px;
-    color:var(--fog);text-decoration:none;font-size:0.58rem;
-    letter-spacing:0.04em;text-transform:uppercase;gap:4px;
-    transition:color .2s;cursor:pointer;
-  }
-  .bottom-nav a.active,.bottom-nav a:hover{color:var(--amber)}
-  .bottom-nav a svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.5}
-  .home-stats{flex-wrap:wrap}
-  .story-layout,.inv-hero-split,.method-hero,.contact,.page-hero{grid-template-columns:1fr!important;gap:40px}
-  .inv-card.flagship{grid-column:auto!important;grid-template-columns:1fr!important}
-  .inv-grid{grid-template-columns:1fr!important}
-  .market-grid{grid-template-columns:1fr!important}
-  .cta-strip{grid-template-columns:1fr!important}
-  #contact{grid-template-columns:1fr!important;gap:60px}
-  .orbit-wrap{display:none}
-  body{cursor:auto}
-  #cur,#cur2{display:none}
-}
-</style>
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  </style>
 </head>
 <body>
 
-<div id="cur"></div>
-<div id="cur2"></div>
-<canvas id="bg"></canvas>
+<!-- HEADER -->
+<header>
+  <div class="badge">Investor Analysis Report · May 2026</div>
+  <h1>AQD <span>Technology</span></h1>
+  <p class="subtitle">A deep-dive investor analysis of a solo-inventor patent portfolio spanning environmental health intelligence, marine safety, and smart construction tools.</p>
+  <div class="header-meta">
+    <span><span class="dot"></span> Pittsburgh, PA</span>
+    <span><span class="dot"></span> Pro Se · Micro Entity</span>
+    <span><span class="dot"></span> 7 USPTO Applications</span>
+    <span><span class="dot"></span> 2026 Priority Year</span>
+    <span><span class="dot"></span> Pre-Revenue Stage</span>
+  </div>
+</header>
 
-<!-- ═══════════ NAV ═══════════ -->
+<!-- NAV -->
 <nav>
-  <a class="nav-brand" onclick="showPage('home')">
-    <span class="logo">AQD Tech</span>
-    <span class="sub">AQD Technology · aqd.technology</span>
-  </a>
-  <ul class="nav-links">
-    <li><a onclick="showPage('home')" data-page="home">Home</a></li>
-    <li><a onclick="showPage('inventions')" data-page="inventions">Inventions</a></li>
-    <li><a onclick="showPage('story')" data-page="story">Origin Story</a></li>
-    <li><a onclick="showPage('method')" data-page="method">The AQD Method™</a></li>
-    <li><a onclick="showPage('investors')" data-page="investors">For Investors</a></li>
-    <li><a onclick="showPage('contact')" data-page="contact">Contact</a></li>
-  </ul>
-  <div class="nav-hamburger" id="hamburger" onclick="toggleMenu()">
-    <span></span><span></span><span></span>
-  </div>
+  <a href="#overview" class="active">Overview</a>
+  <a href="#portfolio">Portfolio</a>
+  <a href="#market">Market</a>
+  <a href="#patents">Patents</a>
+  <a href="#prototype">Prototype</a>
+  <a href="#competitive">Competitive</a>
+  <a href="#swot">SWOT</a>
+  <a href="#risks">Risk Profile</a>
+  <a href="#verdict">Verdict</a>
 </nav>
 
-<!-- MOBILE SLIDE MENU -->
-<div class="mobile-menu" id="mobileMenu">
-  <a onclick="showPage('home');toggleMenu()" data-page="home">Home</a>
-  <a onclick="showPage('inventions');toggleMenu()" data-page="inventions">Inventions</a>
-  <a onclick="showPage('story');toggleMenu()" data-page="story">Origin Story</a>
-  <a onclick="showPage('method');toggleMenu()" data-page="method">The AQD Method™</a>
-  <a onclick="showPage('investors');toggleMenu()" data-page="investors">For Investors</a>
-  <a onclick="showPage('contact');toggleMenu()" data-page="contact">Contact</a>
-</div>
+<!-- OVERVIEW -->
+<section id="overview">
+  <div class="container">
+    <div class="section-label">Company Overview</div>
+    <h2>Five Inventions. One Mind.</h2>
+    <p style="max-width:720px; color:var(--muted); font-size:15px;">AQD Technology is the invention portfolio of Abdul Qawwee Daniels, a pro se (self-represented) inventor based in Pittsburgh, Pennsylvania. In a single priority year — 2026 — Daniels filed seven USPTO patent applications covering five distinct inventions across two technology domains: environmental health intelligence and intelligent tools. The portfolio is positioned for licensing, acquisition, joint venture, or strategic partnership.</p>
 
-<!-- MOBILE BOTTOM NAV -->
-<nav class="bottom-nav" id="bottomNav">
-  <a onclick="showPage('home')" data-page="home">
-    <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-    Home
-  </a>
-  <a onclick="showPage('inventions')" data-page="inventions">
-    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="2"/><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
-    Inventions
-  </a>
-  <a onclick="showPage('story')" data-page="story">
-    <svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-    Story
-  </a>
-  <a onclick="showPage('method')" data-page="method">
-    <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-    Method
-  </a>
-  <a onclick="showPage('investors')" data-page="investors">
-    <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-    Investors
-  </a>
-  <a onclick="showPage('contact')" data-page="contact">
-    <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-    Contact
-  </a>
-</nav>
-
-<!-- ═══════════════════════════════
-     PAGE 1 — HOME
-═══════════════════════════════ -->
-<div id="home" class="page active">
-  <div class="home-top">
-    <div class="home-kicker">Pittsburgh, Pennsylvania · Pro Se Inventor · Micro Entity · USPTO</div>
-    <h1 class="home-headline">
-      Five<br>
-      <span class="em">Inventions.</span><br>
-      One Mind.
-    </h1>
-    <p class="home-deck">
-      "The last inventor from Pittsburgh to file a multi-patent portfolio of this kind in a single session, without institutional backing, was doing it in the railroad and electricity industries in the 1870s. His name was George Westinghouse."
-    </p>
-    <div class="home-stats">
-      <div class="stat">
-        <span class="n">5</span>
-        <span class="l">Unique Inventions</span>
+    <div class="stats-grid fade-in">
+      <div class="stat-card">
+        <div class="value">5</div>
+        <div class="label">Unique Inventions</div>
       </div>
-      <div class="stat">
-        <span class="n">7</span>
-        <span class="l">USPTO Applications</span>
+      <div class="stat-card">
+        <div class="value">7</div>
+        <div class="label">USPTO Applications</div>
       </div>
-      <div class="stat">
-        <span class="n">$320</span>
-        <span class="l">Total Filing Cost</span>
+      <div class="stat-card">
+        <div class="value">$320</div>
+        <div class="label">Total Filing Cost</div>
       </div>
-      <div class="stat">
-        <span class="n">1:200K</span>
-        <span class="l">Statistical Probability</span>
+      <div class="stat-card">
+        <div class="value">1:200K</div>
+        <div class="label">Statistical Rarity</div>
       </div>
-      <div class="stat">
-        <span class="n">2026</span>
-        <span class="l">Priority Year</span>
+      <div class="stat-card">
+        <div class="value">2026</div>
+        <div class="label">Priority Year</div>
+      </div>
+      <div class="stat-card">
+        <div class="value">$7.2B+</div>
+        <div class="label">Combined TAM</div>
       </div>
     </div>
-    <div class="home-cta">
-      <button class="btn-primary" onclick="showPage('inventions')">Explore Inventions</button>
-      <button class="btn-ghost" onclick="showPage('story')">Read the Origin Story</button>
-      <button class="btn-ghost" onclick="showPage('investors')">Investor Relations</button>
-    </div>
-  </div>
-  <div class="pgh-strip">
-    <p>Pittsburgh, PA 15215 · Customer #230085 · Pro Se · Micro Entity · 35 U.S.C. § 111(b)</p>
-    <span class="westinghouse">aqd.technology · Mahirsheffield@gmail.com</span>
-  </div>
-  <div class="scroll-hint">
-    <span>Scroll</span>
-    <div class="scroll-line"></div>
-  </div>
-</div>
 
-<!-- ═══════════════════════════════
-     PAGE 2 — INVENTIONS
-═══════════════════════════════ -->
-<div id="inventions" class="page">
-  <div class="page-hero reveal">
-    <h2 class="page-title">The<br><em>Portfolio</em></h2>
-    <p class="page-intro">
-      Five patent-pending inventions spanning two distinct technology domains — environmental health intelligence and intelligent tools. Each invention was conceived, designed, and filed without legal representation, establishing prior art across detection, prediction, distributed networking, clinical integration, and smart surface finishing.
-    </p>
-  </div>
-
-  <!-- AQD HEALTH INTELLIGENCE GROUP -->
-  <div class="portfolio-group">
-    <div class="group-header reveal">
-      <span class="group-label">Portfolio 1 of 2</span>
-      <h3 class="group-title">AQD Environmental Health Intelligence System</h3>
-      <span class="group-tag">4 Applications · Filed 04/13/2026</span>
-    </div>
-
-    <div class="inv-grid">
-      <!-- CEHE -->
-      <div class="inv-card flagship reveal d1">
-        <div class="card-glow"></div>
-        <div>
-          <div class="card-num">AQD-0001 · Flagship · App. 64038393</div>
-          <div class="card-name">Causal Environmental Health Event System</div>
-          <div class="card-sub">The system that proves cause and effect — automatically.</div>
-          <p class="card-body">
-            The first system in the world to automatically connect an environmental trigger to a physiological response with a validated, timestamped, tamper-evident record. Environmental sensors detect PM2.5, VOCs, ozone and more. Physiological sensors monitor heart rate, SpO2, respiratory rate. A causal confidence algorithm determines whether the body's response occurred within a configurable time window of the environmental event — and if validated, generates a structured CEHE Record suitable for clinical documentation, insurance claims, and medicolegal use.
-          </p>
-          <div class="card-tags">
-            <span class="tag">Environmental Health</span><span class="tag">IoT</span>
-            <span class="tag">Causal AI</span><span class="tag">Clinical Records</span>
-            <span class="tag">Medicolegal</span>
+    <!-- Timeline -->
+    <div style="margin-top:48px;">
+      <h3 style="margin-bottom:6px;">Filing Timeline</h3>
+      <p style="font-size:13px; color:var(--muted); margin-bottom:0;">Key milestones in AQD Technology's patent prosecution journey.</p>
+      <div class="timeline" style="margin-top:28px;">
+        <div class="timeline-item">
+          <div class="timeline-dot">1</div>
+          <div class="timeline-content">
+            <div class="tl-date">April 13, 2026</div>
+            <h4>Environmental Health Intelligence System Filed</h4>
+            <p>Four provisional applications (AQD-0001 through AQD-0004) filed covering the full CEHE stack — detection, prediction, distributed networking, and EHR integration.</p>
           </div>
-          <div class="card-foot">USPTO App · <span>64038393</span> · Filed <span>04/13/2026</span> · Docket <span>AQD-0001</span> · Status <span>NEW</span></div>
         </div>
-        <div class="inv-visual">
-          <div class="orbit-wrap">
-            <div class="orbit" style="animation:spin 18s linear infinite"></div>
-            <div class="orbit"></div>
-            <div class="orbit"></div>
-            <div class="orbit-core"><span>🫁</span><small>CEHE</small></div>
+        <div class="timeline-item">
+          <div class="timeline-dot">2</div>
+          <div class="timeline-content">
+            <div class="tl-date">April 28, 2026</div>
+            <h4>WaterGuard™ &amp; SmartSand™ Filed</h4>
+            <p>WaterGuard™ provisional application (64051886) and SmartSand™ non-provisional utility application (64051026) filed. SmartSand is the only non-provisional in the portfolio — the strongest form of patent protection.</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot">3</div>
+          <div class="timeline-content">
+            <div class="tl-date">May 24, 2026</div>
+            <h4>CEHE v1 Reference Prototype Operational</h4>
+            <p>Multi-modal causal event detection validated empirically. Four independent environmental channels demonstrated temporally correlated response to a single causal stimulus — the foundational signal pattern described in AQD-0001. Reduction to practice established with archived sensor data, multi-hour autonomous operation, and signed/timestamped evidence record.</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot">4</div>
+          <div class="timeline-content">
+            <div class="tl-date">Q1–Q2 2027 (Deadline)</div>
+            <h4>12-Month Non-Provisional Conversion Window</h4>
+            <p>Provisional applications must be converted to non-provisional within 12 months of filing to maintain priority dates. This creates a defined, actionable investment timeline for potential partners.</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot">5</div>
+          <div class="timeline-content">
+            <div class="tl-date">2027–2028 (Projected)</div>
+            <h4>USPTO Examination &amp; Prosecution</h4>
+            <p>Following non-provisional conversion, applications enter formal USPTO examination. Average prosecution timeline is 2–3 years from filing to grant or final rejection.</p>
           </div>
         </div>
       </div>
-
-      <!-- ML Predictive -->
-      <div class="inv-card reveal d2">
-        <div class="card-glow"></div>
-        <div class="card-num">AQD-0002 · App. 64038373</div>
-        <div class="card-name">Predictive ML Environmental Physiological Events</div>
-        <div class="card-sub">Predict the next event before it happens.</div>
-        <p class="card-body">
-          A machine learning system trained on historical CEHE Records to generate individualized risk forecasts up to 72 hours in advance. Gradient boosted trees, LSTM networks, and transformer architectures ingest real-time environmental feeds and output probability scores with confidence intervals. Continuously retrained as new confirmed events are recorded. Issues pre-emptive behavioral recommendations when risk exceeds threshold.
-        </p>
-        <div class="card-tags">
-          <span class="tag">Machine Learning</span><span class="tag">Predictive Analytics</span>
-          <span class="tag">LSTM</span><span class="tag">Real-Time Inference</span>
-        </div>
-        <div class="card-foot">USPTO App · <span>64038373</span> · Filed <span>04/13/2026</span> · Docket <span>AQD-0002</span> · Status <span>NEW</span></div>
-      </div>
-
-      <!-- Distributed Network -->
-      <div class="inv-card reveal d3">
-        <div class="card-glow"></div>
-        <div class="card-num">AQD-0003 · App. 64038343</div>
-        <div class="card-name">Distributed Environmental Physiological Monitoring Network</div>
-        <div class="card-sub">Triangulate the source. Alert everyone in the zone.</div>
-        <p class="card-body">
-          A multi-node geographic network that goes beyond existing systems like PurpleAir and EPA AQS. Cross-node temporal and spatial correlation identifies a single environmental event detected across multiple nodes, applies multilateration triangulation to estimate the source coordinates and dispersion trajectory, generates network-level CEHE Records with spatial metadata, and dispatches geographically targeted alerts to all subjects within the affected zone.
-        </p>
-        <div class="card-tags">
-          <span class="tag">Distributed Sensors</span><span class="tag">LoRaWAN</span>
-          <span class="tag">Triangulation</span><span class="tag">Public Health</span>
-        </div>
-        <div class="card-foot">USPTO App · <span>64038343</span> · Filed <span>04/13/2026</span> · Docket <span>AQD-0003</span> · Status <span>NEW</span></div>
-      </div>
-
-      <!-- Clinical Integration -->
-      <div class="inv-card reveal d4">
-        <div class="card-glow"></div>
-        <div class="card-num">AQD-0004 · App. 64038293</div>
-        <div class="card-name">Clinical Structuring and Integration of Environmental Health Events</div>
-        <div class="card-sub">From CEHE Record to EHR in one step.</div>
-        <p class="card-body">
-          The clinical integration layer that transforms validated CEHE Records into structured EHR-compatible documents, ICD billing codes, and legal exhibits. Closes the loop between environmental detection, physiological confirmation, and the clinical and administrative systems that must act on that information — insurance, hospital records, legal discovery.
-        </p>
-        <div class="card-tags">
-          <span class="tag">EHR Integration</span><span class="tag">FHIR</span>
-          <span class="tag">Clinical Data</span><span class="tag">ICD Coding</span>
-        </div>
-        <div class="card-foot">USPTO App · <span>64038293</span> · Filed <span>04/13/2026</span> · Docket <span>AQD-0004</span> · Status <span>NEW</span></div>
-      </div>
     </div>
   </div>
+</section>
 
-  <!-- WATERGUARD + SMARTSAND GROUP -->
-  <div class="portfolio-group">
-    <div class="group-header reveal">
-      <span class="group-label">Portfolio 2 of 2</span>
-      <h3 class="group-title">WaterGuard™ · SmartSand™</h3>
-      <span class="group-tag">3 Applications Filed 04/28/2026</span>
+<!-- PORTFOLIO -->
+<section id="portfolio">
+  <div class="container">
+    <div class="section-label">Invention Portfolio</div>
+    <h2>Two Technology Domains</h2>
+    <p style="max-width:720px; color:var(--muted); font-size:15px;">The portfolio spans environmental health intelligence (four applications forming a complete detection-to-documentation stack) and intelligent tools (marine safety and smart construction).</p>
+
+    <div class="tab-group" style="margin-top:28px;">
+      <button class="tab-btn active" onclick="switchTab('env')">Environmental Health System</button>
+      <button class="tab-btn" onclick="switchTab('tools')">WaterGuard™ &amp; SmartSand™</button>
     </div>
 
-    <div class="inv-grid">
-      <!-- WaterGuard -->
-      <div class="inv-card flagship reveal d1">
-        <div class="card-glow"></div>
-        <div>
-          <div class="card-num">WATERGUARD™ · Primary App. 64051886</div>
-          <div class="card-name">WaterGuard™ Autonomous Emergency Alert System</div>
-          <div class="card-sub">No user input. No second chance needed.</div>
-          <p class="card-body">
-            The world's first fully autonomous ocean emergency detection and distress transmission system. A four-stage AI classification algorithm — Force Spike, Multi-Axis Instability, Non-Recovery Confirmation, Leash Tension Anomaly — fuses real-time sensor data to detect shark attacks, drowning, and loss of consciousness without any user input. Upon declaration, a 30-second cancel window is provided before the system autonomously transmits a geo-tagged distress payload via satellite (Iridium SBD), cellular (LTE-M), and LoRa mesh network in priority order, repeating until acknowledged.
-          </p>
-          <div class="card-tags">
-            <span class="tag">Marine Safety</span><span class="tag">Satellite IoT</span>
-            <span class="tag">Autonomous Systems</span><span class="tag">LoRa Mesh</span>
+    <div id="tab-env" class="tab-content active">
+      <div class="invention-grid">
+        <div class="invention-card env">
+          <div class="docket">AQD-0001 · Flagship · App. 64038393</div>
+          <h3>Causal Environmental Health Event System</h3>
+          <div class="tagline">The system that proves cause and effect — automatically.</div>
+          <p>The world's first system to automatically connect an environmental trigger (PM2.5, VOCs, ozone) to a physiological response (heart rate, SpO2, respiratory rate) with a validated, timestamped, tamper-evident CEHE Record. Suitable for clinical documentation, insurance claims, and medicolegal use.</p>
+          <div class="tags">
+            <span class="tag green">Environmental Health</span>
+            <span class="tag">IoT</span>
+            <span class="tag">Causal AI</span>
+            <span class="tag green">Medicolegal</span>
           </div>
-          <div class="waterguard-note">
-            <strong>Note:</strong> A second application (64051167) was filed in error under a different title for the same invention. This duplicate will either be petitioned for withdrawal or allowed to expire at the 12-month mark. The controlling application is 64051886.
-          </div>
-          <div class="card-foot" style="margin-top:20px">USPTO App · <span>64051886</span> · Filed <span>04/28/2026</span> · Status <span>NEW</span> (Controlling)</div>
         </div>
-        <div class="inv-visual">
-          <div class="orbit-wrap">
-            <div class="orbit" style="animation:spin 16s linear infinite"></div>
-            <div class="orbit"></div>
-            <div class="orbit"></div>
-            <div class="orbit-core"><span>🌊</span><small>WaterGuard</small></div>
+        <div class="invention-card env">
+          <div class="docket">AQD-0002 · App. 64038373</div>
+          <h3>Predictive ML Environmental Physiological Events</h3>
+          <div class="tagline">Predict the next event before it happens.</div>
+          <p>ML system trained on historical CEHE Records generating individualized risk forecasts up to 72 hours in advance. Uses gradient boosted trees, LSTM networks, and transformer architectures. Issues pre-emptive behavioral recommendations when risk exceeds threshold.</p>
+          <div class="tags">
+            <span class="tag">Machine Learning</span>
+            <span class="tag">LSTM</span>
+            <span class="tag">Predictive Analytics</span>
+          </div>
+        </div>
+        <div class="invention-card env">
+          <div class="docket">AQD-0003 · App. 64038343</div>
+          <h3>Distributed Environmental Physiological Monitoring Network</h3>
+          <div class="tagline">Triangulate the source. Alert everyone in the zone.</div>
+          <p>Multi-node geographic network surpassing PurpleAir and EPA AQS. Cross-node temporal and spatial correlation with multilateration triangulation to estimate event source coordinates and dispersion trajectory. Dispatches geographically targeted alerts via LoRaWAN.</p>
+          <div class="tags">
+            <span class="tag">LoRaWAN</span>
+            <span class="tag">Distributed Sensors</span>
+            <span class="tag green">Public Health</span>
+          </div>
+        </div>
+        <div class="invention-card env">
+          <div class="docket">AQD-0004 · App. 64038293</div>
+          <h3>Clinical Structuring &amp; Integration of Environmental Health Events</h3>
+          <div class="tagline">From CEHE Record to EHR in one step.</div>
+          <p>Clinical integration layer transforming validated CEHE Records into structured EHR-compatible documents, ICD billing codes, and legal exhibits. Closes the loop between environmental detection, physiological confirmation, and clinical/administrative systems — insurance, hospital records, legal discovery.</p>
+          <div class="tags">
+            <span class="tag">EHR Integration</span>
+            <span class="tag">FHIR</span>
+            <span class="tag green">ICD Coding</span>
           </div>
         </div>
       </div>
+    </div>
 
-      <!-- SmartSand -->
-      <div class="inv-card reveal d2">
-        <div class="card-glow"></div>
-        <div class="card-num">SMARTSAND™ · Non-Provisional · App. 64051026</div>
-        <div class="card-name">SmartSand™ Intelligent Surface-Detection Drywall Sanding System</div>
-        <div class="card-sub">The sander that knows when to stop.</div>
-        <p class="card-body">
-          Filed as a non-provisional utility application — the strongest form of patent protection. A drywall sanding system incorporating motor current signature analysis, multi-axis vibration sensing, and RFID consumable identification to autonomously detect the exact moment joint compound is sanded flush with drywall paper facing. Prevents over-sanding damage. Recommends grit progression. Automatically pauses the motor at the flush transition point. RFID-tagged abrasive disc ecosystem enables closed-loop consumable tracking and job costing via companion app.
-        </p>
-        <div class="card-tags">
-          <span class="tag">Smart Tools</span><span class="tag">Motor Current Analysis</span>
-          <span class="tag">RFID</span><span class="tag">Construction Tech</span>
-          <span class="tag">Non-Provisional</span>
+    <div id="tab-tools" class="tab-content">
+      <div class="invention-grid">
+        <div class="invention-card marine">
+          <div class="docket">WaterGuard™ · Primary App. 64051886</div>
+          <h3>WaterGuard™ Autonomous Emergency Alert System</h3>
+          <div class="tagline">No user input. No second chance needed.</div>
+          <p>The world's first fully autonomous ocean emergency detection and distress transmission system. A four-stage AI classification algorithm (Force Spike, Multi-Axis Instability, Non-Recovery Confirmation, Leash Tension Anomaly) fuses real-time sensor data to detect shark attacks, drowning, and loss of consciousness without any user input. Transmits geo-tagged distress payload via Iridium SBD, LTE-M, and LoRa mesh network in priority order.</p>
+          <div class="tags">
+            <span class="tag">Marine Safety</span>
+            <span class="tag">Satellite IoT</span>
+            <span class="tag">Autonomous AI</span>
+            <span class="tag">LoRa Mesh</span>
+          </div>
         </div>
-        <div class="card-foot">USPTO App · <span>64051026</span> · Filed <span>04/28/2026</span> · Non-Provisional Utility · Status <span>NEW</span></div>
+        <div class="invention-card tools">
+          <div class="docket">SmartSand™ · Non-Provisional · App. 64051026</div>
+          <h3>SmartSand™ Intelligent Surface-Detection Drywall Sanding System</h3>
+          <div class="tagline">The sander that knows when to stop.</div>
+          <p>Filed as a non-provisional utility patent — the strongest form of patent protection. Incorporates motor current signature analysis, multi-axis vibration sensing, and RFID consumable identification to autonomously detect the exact moment joint compound is sanded flush with drywall paper facing. Prevents over-sanding damage, recommends grit progression, and enables closed-loop consumable tracking via RFID-tagged abrasive disc ecosystem.</p>
+          <div class="tags">
+            <span class="tag orange">Smart Tools</span>
+            <span class="tag orange">RFID</span>
+            <span class="tag orange">Motor Current Analysis</span>
+            <span class="tag orange">Non-Provisional</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
+</section>
 
-  <footer class="site-footer reveal">
-    <p>© 2026 AQDTechnology.net · Abdul Qawwee Daniels · All Inventions Patent-Pending · USPTO #230085</p>
-    <p>Confidential — Not for public disclosure without authorization</p>
-  </footer>
-</div>
+<!-- MARKET -->
+<section id="market">
+  <div class="container">
+    <div class="section-label">Market Opportunity</div>
+    <h2>Three Addressable Markets</h2>
+    <p style="max-width:720px; color:var(--muted); font-size:15px;">AQD's inventions target three distinct markets with a combined addressable opportunity exceeding $7.2 billion. Each market has been identified by the company as having no direct prior art equivalent for the specific innovations claimed.</p>
 
-<!-- ═══════════════════════════════
-     PAGE 3 — ORIGIN STORY
-═══════════════════════════════ -->
-<div id="story" class="page">
-  <div class="story-layout">
-    <div class="story-sidebar">
-      <div style="font-family:var(--ff-mono);font-size:.55rem;letter-spacing:4px;text-transform:uppercase;color:var(--amber)">The Origin Story</div>
-      <ul class="story-chapter-list">
-        <li>01 — The Gap Nobody Was Filling</li>
-        <li>02 — The First Invention</li>
-        <li>03 — One Problem, Four Layers</li>
-        <li>04 — The Numbers</li>
-        <li>05 — What Made It Possible</li>
-        <li>06 — The Framework</li>
-        <li>07 — Why I'm Sharing This</li>
-      </ul>
-      <div class="story-quote-pull">
-        "Four patents. One problem. Filed on the same day. No attorney. $80 per application."
+    <div class="market-cards fade-in">
+      <div class="market-card">
+        <div class="market-size">$4.2B</div>
+        <div class="market-name">Environmental Health Market</div>
+        <p>Global environmental health monitoring market. No existing system provides autonomous causal event documentation with medicolegal-grade records — AQD-0001 through 0004 address the complete stack.</p>
+        <div class="differentiator">No identified direct prior art for causal environmental-physiological documentation</div>
+      </div>
+      <div class="market-card">
+        <div class="market-size">$2.4B+</div>
+        <div class="market-name">Marine Safety Market</div>
+        <p>Marine personal safety devices market. WaterGuard is the only autonomous, zero-input emergency detection and satellite transmission system in this category. Existing PLBs (ACR, Garmin) require manual activation.</p>
+        <div class="differentiator">No autonomous, zero-input ocean emergency detection system identified in market</div>
+      </div>
+      <div class="market-card">
+        <div class="market-size">$560M</div>
+        <div class="market-name">Smart Drywall Tools</div>
+        <p>Drywall sander market projected by 2033. 62.88% of electric drywall sander buyers are DIY — the exact segment most likely to over-sand and benefit from SmartSand's automatic surface detection and motor pause.</p>
+        <div class="differentiator">No intelligent surface-detection drywall sanding system currently on market</div>
       </div>
     </div>
 
-    <div class="story-body">
-      <h2 class="reveal">How One Inventor Filed<br><em style="color:var(--amber)">Five Patents</em><br>and Why the Odds Were<br>1 in 200,000</h2>
-
-      <h3 class="reveal d1">01 — The Gap Nobody Was Filling</h3>
-      <p class="reveal d2">I did not set out to become a patent holder. I set out to solve a problem that was bothering me — a gap so obvious, once you see it, you cannot unsee it.</p>
-      <p class="reveal d2">Millions of people live with conditions triggered by their environment — asthma, allergic reactions, respiratory events, cardiovascular episodes. The air quality monitors exist. The wearable health trackers exist. <strong>The data exists on both sides. But no system in the world automatically connects the two.</strong> Not with a timestamp. Not with a confidence score. Not with a tamper-evident record that could hold up in a doctor's office, an insurance claim, or a courtroom.</p>
-      <ul class="reveal d3">
-        <li>Patients have no clinical documentation of what triggered their event.</li>
-        <li>Insurance claims fail because there is no verified causal record.</li>
-        <li>No system can alert you in real time that an exposure is causing harm.</li>
-        <li>Population-level environmental health data is built on estimates, not confirmed events.</li>
-      </ul>
-      <p class="reveal d3">I wrote that list down. <strong>That list became the Background section of my first patent.</strong></p>
-
-      <h3 class="reveal d1">02 — The First Invention</h3>
-      <p class="reveal d2">The solution I designed is called the Causal Environmental Health Event (CEHE) system. It asks a question no prior system had ever asked automatically:</p>
-      <blockquote class="reveal d2">"Did this environmental event cause this physiological response — and can I prove it?"</blockquote>
-      <p class="reveal d3">If the physiological response occurs within a configurable time window after the environmental event, and the weighted confidence score clears validation, the system generates a structured, immutable, timestamped record. A CEHE Record that can go straight into a medical record, an insurance file, or a legal exhibit. That was Patent 1.</p>
-
-      <h3 class="reveal d1">03 — One Problem, Four Layers</h3>
-      <p class="reveal d2"><strong>Here is the insight that changed everything: I did not stop at one patent.</strong></p>
-      <p class="reveal d2">Most inventors find a solution and file one application. I looked at the CEHE system and asked a different question: <em>what does this invention make possible next?</em></p>
-      <ul class="reveal d3">
-        <li><strong>Detection</strong> — The CEHE system confirms causal events in real time. (Patent 1)</li>
-        <li><strong>Prediction</strong> — ML trained on CEHE records predicts the next event 72 hours out. (Patent 2)</li>
-        <li><strong>Scale</strong> — A distributed network triangulates the geographic source and alerts everyone in the affected zone. (Patent 3)</li>
-        <li><strong>Integration</strong> — A clinical system transforms CEHE records into EHR documents and billing codes. (Patent 4)</li>
-      </ul>
-      <p class="reveal d3">Four patents. One problem. Filed on the same day to establish a shared priority date. No attorney. No law firm. $80 per application as a micro entity.</p>
-
-      <div class="stat-callout reveal d2">
-        <span class="big-n">1:200K</span>
-        <p>The USPTO receives approximately 149,000 provisional patent applications per year. Filter down to a Pittsburgh pro se micro entity who filed four interconnected applications on a single day, in an entirely new technology domain — and the statistical probability is approximately <strong>1 in 200,000.</strong></p>
+    <!-- Market Growth Charts -->
+    <div class="chart-grid" style="margin-top:40px;">
+      <div class="chart-card">
+        <h3>Market Size Comparison (2026)</h3>
+        <div class="chart-sub">AQD's three target markets by current size (USD Billions)</div>
+        <div class="chart-wrap">
+          <canvas id="marketBarChart"></canvas>
+        </div>
       </div>
-
-      <h3 class="reveal d1">04 — The Numbers</h3>
-      <p class="reveal d2">Pennsylvania accounts for roughly 3–4% of national filings. Pittsburgh is perhaps 15–20% of Pennsylvania's inventor population. Solo pro se micro entity filers represent perhaps 8–12% of that. Filter down to someone who filed four interconnected applications on a single day, in an entirely new technology domain — and the odds work out to somewhere between 1 in 150,000 and 1 in 300,000.</p>
-      <p class="reveal d2"><strong>The last inventor from Pittsburgh to file a multi-patent portfolio of this kind in a single session, without institutional backing, was doing it in the railroad and electricity industries in the 1870s. His name was George Westinghouse.</strong></p>
-
-      <h3 class="reveal d1">05 — What Made It Possible</h3>
-      <p class="reveal d2">I did not have a law firm. I did not have a research team. I did not have institutional funding or a university lab behind me. I had a problem I understood deeply, a structured way of thinking about solutions, and AI as a co-pilot.</p>
-      <p class="reveal d2">The key distinction is important: <strong>AI did not invent anything.</strong> The gap I identified was mine. The architecture I designed was mine. The decision to build a four-layer portfolio rather than a single application was mine.</p>
-      <p class="reveal d3">What AI provided was translation — taking my technical and conceptual thinking and helping me articulate it in the precise, structured language that a patent application requires. Without AI, I would have needed an attorney at $5,000 to $15,000 per application. <strong>Instead, four applications cost me $320.</strong></p>
-
-      <h3 class="reveal d1">07 — Why I'm Sharing This</h3>
-      <p class="reveal d2">The U.S. patent system was designed to give independent inventors a fighting chance. But most independent inventors don't know how to use the tools available to them.</p>
-      <p class="reveal d2">What I did is <strong>repeatable.</strong> Not the specific patents — those are mine. But the framework that produced them. The thinking sequence. The layer expansion logic. The way of using AI as a translation engine rather than an invention engine. Any person with a real problem they understand deeply can apply this method.</p>
-      <p class="reveal d3"><strong>That is what I am building next.</strong></p>
-
-      <div style="margin-top:60px;padding-top:40px;border-top:1px solid var(--line)" class="reveal">
-        <button class="btn-primary" onclick="showPage('method')">Read the AQD Method™ →</button>
+      <div class="chart-card">
+        <h3>Broader Market Context</h3>
+        <div class="chart-sub">Adjacent market sizes that AQD's technology intersects (USD Billions)</div>
+        <div class="chart-wrap">
+          <canvas id="contextChart"></canvas>
+        </div>
+      </div>
+      <div class="chart-card">
+        <h3>Market Growth Projections</h3>
+        <div class="chart-sub">Key market trajectories through 2030 (USD Billions)</div>
+        <div class="chart-wrap">
+          <canvas id="growthChart"></canvas>
+        </div>
+      </div>
+      <div class="chart-card">
+        <h3>Patent Portfolio Breakdown</h3>
+        <div class="chart-sub">Applications by technology domain</div>
+        <div class="chart-wrap">
+          <canvas id="portfolioDonut"></canvas>
+        </div>
       </div>
     </div>
   </div>
+</section>
 
-  <footer class="site-footer reveal">
-    <p>© 2026 AQDTechnology.net · Abdul Qawwee Daniels · Pittsburgh, PA · AQD Method™ is a trademark</p>
-    <p>Patent Pending · PROV-2024-0001 through 0004 · Confidential</p>
-  </footer>
-</div>
+<!-- PATENTS -->
+<section id="patents">
+  <div class="container">
+    <div class="section-label">Patent Filing Record</div>
+    <h2>Complete USPTO Application Log</h2>
+    <p style="max-width:720px; color:var(--muted); font-size:15px;">All seven applications are currently in "NEW" status with the USPTO. Six are provisional applications (establishing priority date; must be converted to non-provisional within 12 months) and one is a non-provisional utility application (SmartSand™).</p>
 
-<!-- ═══════════════════════════════
-     PAGE 4 — THE AQD METHOD
-═══════════════════════════════ -->
-<div id="method" class="page">
-  <div class="method-hero">
-    <div>
-      <div style="font-family:var(--ff-mono);font-size:.6rem;letter-spacing:4px;text-transform:uppercase;color:var(--amber);margin-bottom:24px" class="reveal">The Framework</div>
-      <h2 style="font-family:var(--ff-display);font-size:clamp(48px,7vw,96px);line-height:.92;color:var(--cream);margin-bottom:32px" class="reveal d2">The AQD<br><em style="color:var(--amber);font-style:italic">Method™</em></h2>
-      <p style="font-family:var(--ff-mono);font-size:.65rem;letter-spacing:2px;color:var(--mist);line-height:1.8" class="reveal d3">Seven phases that produced five patent applications from a single inventor with no legal representation. A repeatable framework for anyone with a problem worth solving.</p>
+    <div class="table-wrap fade-in">
+      <table>
+        <thead>
+          <tr>
+            <th>App. Number</th>
+            <th>Filed</th>
+            <th>Type</th>
+            <th>Status</th>
+            <th>Docket</th>
+            <th>Invention</th>
+            <th>Domain</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>64051886</strong></td>
+            <td>04/28/2026</td>
+            <td>Provisional</td>
+            <td><span class="status-new">NEW</span></td>
+            <td>—</td>
+            <td>WaterGuard™ — Controlling Application</td>
+            <td>Marine Safety</td>
+          </tr>
+          <tr>
+            <td>64051167</td>
+            <td>04/28/2026</td>
+            <td>Provisional</td>
+            <td><span class="status-dup">DUPLICATE</span></td>
+            <td>—</td>
+            <td>WaterGuard / SMESAAS — Same Invention (Duplicate)</td>
+            <td>Marine Safety</td>
+          </tr>
+          <tr>
+            <td><strong>64051026</strong></td>
+            <td>04/28/2026</td>
+            <td><span class="type-np">Non-Provisional Utility</span></td>
+            <td><span class="status-new">NEW</span></td>
+            <td>—</td>
+            <td>SmartSand™ — Intelligent Drywall Sanding System</td>
+            <td>Smart Tools</td>
+          </tr>
+          <tr>
+            <td>64038393</td>
+            <td>04/13/2026</td>
+            <td>Provisional</td>
+            <td><span class="status-new">NEW</span></td>
+            <td>AQD-0001</td>
+            <td>Causal Environmental Health Event System</td>
+            <td>Env. Health</td>
+          </tr>
+          <tr>
+            <td>64038373</td>
+            <td>04/13/2026</td>
+            <td>Provisional</td>
+            <td><span class="status-new">NEW</span></td>
+            <td>AQD-0002</td>
+            <td>Predictive ML Environmental Physiological Events</td>
+            <td>Env. Health / AI</td>
+          </tr>
+          <tr>
+            <td>64038343</td>
+            <td>04/13/2026</td>
+            <td>Provisional</td>
+            <td><span class="status-new">NEW</span></td>
+            <td>AQD-0003</td>
+            <td>Distributed Environmental Physiological Network</td>
+            <td>Env. Health / IoT</td>
+          </tr>
+          <tr>
+            <td>64038293</td>
+            <td>04/13/2026</td>
+            <td>Provisional</td>
+            <td><span class="status-new">NEW</span></td>
+            <td>AQD-0004</td>
+            <td>Clinical Structuring &amp; Integration of Env. Health Events</td>
+            <td>HealthTech / EHR</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-    <div class="method-intro reveal d2">
-      <p>Most inventors think they need one big idea. What produces a defensible patent portfolio is something different: a systematic way of expanding a single identified problem into a layered architecture of solutions — each building on the previous, each individually patentable, each commercially separable.</p>
-      <p>The AQD Method™ is not a shortcut. It is a discipline. It requires you to understand your problem more deeply than anyone else — and then to articulate that understanding with the precision the patent system demands.</p>
-      <p style="color:var(--amber);font-style:italic;font-family:var(--ff-body)">This framework produced five patents for $320 in filing fees.</p>
+
+    <div style="margin-top:24px; padding:16px 20px; background:rgba(240,192,64,0.06); border:1px solid rgba(240,192,64,0.15); border-radius:10px; font-size:13px; color:#fcd34d;">
+      <strong>Key Note:</strong> Provisional applications establish a priority date but do not grant any IP rights. They must be converted to non-provisional applications within 12 months (by Q1–Q2 2027) to maintain the 2026 priority date. SmartSand™ (64051026) is already filed as a non-provisional utility patent and is the strongest IP asset in the portfolio.
     </div>
   </div>
+</section>
 
-  <div class="method-steps">
-    <div class="step reveal d1">
-      <span class="step-num">01</span>
-      <div>
-        <div class="step-name">Pain Mapping</div>
-        <p class="step-body">Identify a specific system failure and enumerate every downstream consequence. Not "this is a problem" — but <strong>exactly what breaks, exactly who it harms, exactly what it costs them.</strong> The four gaps in the CEHE background section came directly from this phase. Each gap became an independent argument for why prior art was insufficient.</p>
+<!-- PROTOTYPE -->
+<section id="prototype">
+  <div class="container">
+    <div class="section-label">Reduction to Practice</div>
+    <h2>CEHE v1 Reference Prototype — Operational</h2>
+    <p style="max-width:760px; color:var(--muted); font-size:15px;">As of May 24, 2026, a working multi-sensor reference prototype empirically validates the foundational claims of the AQD Environmental Health Intelligence System. The CEHE v1 node has demonstrated continuous autonomous monitoring, multi-modal sensor integration, and — most critically — temporally correlated multi-channel response to a single causal stimulus: the core signal pattern protected under AQD-0001.</p>
+
+    <div class="stats-grid fade-in">
+      <div class="stat-card">
+        <div class="value">3,537+</div>
+        <div class="label">Data Points Captured</div>
+      </div>
+      <div class="stat-card">
+        <div class="value">10 hr</div>
+        <div class="label">Unattended Runtime</div>
+      </div>
+      <div class="stat-card">
+        <div class="value">4</div>
+        <div class="label">Channels Correlated</div>
+      </div>
+      <div class="stat-card">
+        <div class="value">&lt;0.1%</div>
+        <div class="label">Sample Drop Rate</div>
       </div>
     </div>
-    <div class="step reveal d2">
-      <span class="step-num">02</span>
-      <div>
-        <div class="step-name">Solution Architecture</div>
-        <p class="step-body">Decompose your solution into named components with a <strong>novel connecting mechanism.</strong> The connecting mechanism is where the invention lives — not the sensors themselves, but the causal determination algorithm that connects them. Name everything. Give it a number. Draw the block diagram before you write a single word of specification.</p>
+
+    <!-- Multi-Channel Event Chart -->
+    <div style="margin-top:48px;">
+      <h3 style="margin-bottom:6px;">Multi-Channel Causal Event Response</h3>
+      <p style="font-size:13px; color:var(--muted); margin-bottom:20px; max-width:760px;">Normalized response across four independent environmental channels following a single causal stimulus at t = 0. Channel identities suppressed for IP-protection purposes. The synchronized onset, distinct per-channel peak amplitudes, and coordinated return-to-baseline pattern is the foundational signature claimed in our pending applications.</p>
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:20px;">
+        <div style="position:relative; height:340px;">
+          <canvas id="ceheEventChart" role="img" aria-label="Line chart showing four environmental sensor channels with synchronized response to a single causal event at time zero, with all channels peaking at approximately 23 seconds and returning to baseline over 60 seconds">Multi-channel correlated event response: four channels synchronously rise from baseline at t=0, peak at approximately t=23 seconds with distinct amplitudes, and decay back toward baseline by t=60 seconds.</canvas>
+        </div>
       </div>
     </div>
-    <div class="step reveal d3">
-      <span class="step-num">03</span>
-      <div>
-        <div class="step-name">Layer Expansion</div>
-        <p class="step-body">Ask what your invention <em>enables next.</em> Map the four layers: <strong>Detection → Prediction → Scale → Integration.</strong> Every invention that solves a detection problem creates an opportunity for a prediction patent. Every prediction system creates an opportunity for a distributed network. Every network creates an opportunity for a clinical or operational integration layer. One real problem can produce four independently patentable inventions.</p>
+
+    <!-- Validated Capabilities -->
+    <div style="margin-top:48px;">
+      <h3 style="margin-bottom:6px;">Validated Capabilities</h3>
+      <p style="font-size:13px; color:var(--muted); margin-bottom:0;">Four functional capabilities empirically demonstrated by the CEHE v1 reference prototype.</p>
+      <div class="invention-grid" style="margin-top:24px;">
+        <div class="invention-card env">
+          <div class="docket">Validated · 05/24/2026</div>
+          <h3>Continuous Autonomous Monitoring</h3>
+          <div class="tagline">Set-and-forget environmental logging.</div>
+          <p>Sustained unattended deployment across multi-hour runtime with sub-percent sample loss. Persistent structured data output suitable for downstream correlation analysis and machine learning pipelines.</p>
+        </div>
+        <div class="invention-card env">
+          <div class="docket">Validated · 05/24/2026</div>
+          <h3>Multi-Modal Sensor Integration</h3>
+          <div class="tagline">Independent channels, single node.</div>
+          <p>Multiple independent environmental modalities operating simultaneously on a single autonomous monitoring node with sub-second time synchronization across all channels.</p>
+        </div>
+        <div class="invention-card env">
+          <div class="docket">Validated · 05/24/2026</div>
+          <h3>Temporally Correlated Event Detection</h3>
+          <div class="tagline">The CEHE signal pattern, captured.</div>
+          <p>Empirical demonstration of multi-channel response to a single causal stimulus — captured, time-synchronized, and archived. Synchronized onset, distinct per-channel peak amplitudes, and coordinated return-to-baseline pattern.</p>
+        </div>
+        <div class="invention-card env">
+          <div class="docket">Validated · 05/24/2026</div>
+          <h3>Defensible Reduction-to-Practice Evidence</h3>
+          <div class="tagline">More than paper claims.</div>
+          <p>Working prototype, archived sensor data, dated and signed validation records, and third-party-timestamped supporting documentation form a defensible reduction-to-practice record supporting all four EHIS provisional applications.</p>
+        </div>
       </div>
     </div>
-    <div class="step reveal d4">
-      <span class="step-num">04</span>
-      <div>
-        <div class="step-name">Claim Drafting</div>
-        <p class="step-body">Write four claim types for each invention: the <strong>independent system claim</strong> (what the system is), the <strong>dependent claims</strong> (each specific feature), the <strong>method claim</strong> (what the system does as a process), and the <strong>CRM claim</strong> (the software implementation). These four claim types create maximum defensive coverage and licensing flexibility across different product forms.</p>
+
+    <div style="margin-top:32px; padding:16px 20px; background:rgba(34,197,94,0.06); border:1px solid rgba(34,197,94,0.2); border-radius:10px; font-size:13px; color:#86efac;">
+      <strong>Why this matters for investors and partners:</strong> Provisional patents establish a priority date but their value depends entirely on the strength of the disclosed methods. A working reference prototype — with measurable, archived, empirical validation — materially strengthens the position of all four EHIS provisional applications when converted to non-provisionals. The portfolio has moved from "patent claims on paper" to "patent claims backed by working technology."
+    </div>
+  </div>
+</section>
+
+<!-- COMPETITIVE -->
+<section id="competitive">
+  <div class="container">
+    <div class="section-label">Competitive Landscape</div>
+    <h2>Competitive Positioning</h2>
+    <p style="max-width:720px; color:var(--muted); font-size:15px;">AQD's inventions claim to occupy white spaces in their respective markets. The following analysis compares AQD's key innovations against existing market participants on critical feature dimensions.</p>
+
+    <div style="margin-top:32px;">
+      <h3 style="margin-bottom:20px;">Environmental Health Intelligence</h3>
+      <div class="comp-grid">
+        <div class="comp-card">
+          <div class="comp-name">AQD Environmental Health System</div>
+          <div class="comp-type">AQD Technology (Claimed)</div>
+          <div class="comp-row"><span class="feat">Air Quality Monitoring</span><span class="has">✓ Yes</span></div>
+          <div class="comp-row"><span class="feat">Physiological Monitoring</span><span class="has">✓ Yes</span></div>
+          <div class="comp-row"><span class="feat">Causal AI Correlation</span><span class="has">✓ Yes</span></div>
+          <div class="comp-row"><span class="feat">CEHE Record (Medicolegal)</span><span class="has">✓ Yes</span></div>
+          <div class="comp-row"><span class="feat">EHR / ICD Integration</span><span class="has">✓ Yes</span></div>
+          <div class="comp-row"><span class="feat">Predictive ML (72hr)</span><span class="has">✓ Yes</span></div>
+        </div>
+        <div class="comp-card">
+          <div class="comp-name">PurpleAir</div>
+          <div class="comp-type">Air Quality Sensor Network</div>
+          <div class="comp-row"><span class="feat">Air Quality Monitoring</span><span class="has">✓ Yes</span></div>
+          <div class="comp-row"><span class="feat">Physiological Monitoring</span><span class="no">✗ No</span></div>
+          <div class="comp-row"><span class="feat">Causal AI Correlation</span><span class="no">✗ No</span></div>
+          <div class="comp-row"><span class="feat">CEHE Record (Medicolegal)</span><span class="no">✗ No</span></div>
+          <div class="comp-row"><span class="feat">EHR / ICD Integration</span><span class="no">✗ No</span></div>
+          <div class="comp-row"><span class="feat">Predictive ML (72hr)</span><span class="no">✗ No</span></div>
+        </div>
+        <div class="comp-card">
+          <div class="comp-name">EPA AQS</div>
+          <div class="comp-type">Government Monitoring Network</div>
+          <div class="comp-row"><span class="feat">Air Quality Monitoring</span><span class="has">✓ Yes</span></div>
+          <div class="comp-row"><span class="feat">Physiological Monitoring</span><span class="no">✗ No</span></div>
+          <div class="comp-row"><span class="feat">Causal AI Correlation</span><span class="no">✗ No</span></div>
+          <div class="comp-row"><span class="feat">CEHE Record (Medicolegal)</span><span class="no">✗ No</span></div>
+          <div class="comp-row"><span class="feat">EHR / ICD Integration</span><span class="no">✗ No</span></div>
+          <div class="comp-row"><span class="feat">Predictive ML (72hr)</span><span class="no">✗ No</span></div>
+        </div>
       </div>
     </div>
-    <div class="step reveal d5">
-      <span class="step-num">05</span>
-      <div>
-        <div class="step-name">Drawing Generation</div>
-        <p class="step-body">Produce the five standard figures: <strong>block diagram, algorithm flowchart, data schema, timing/causal diagram, and alert/output routing.</strong> In a provisional, drawings do not need to meet 37 C.F.R. § 1.84 formal requirements — they must simply be understandable. Use AI to generate USPTO-style line art directly from your specification. For the non-provisional, hire a patent draftsperson at $50–150 per figure.</p>
+
+    <div style="margin-top:36px;">
+      <h3 style="margin-bottom:20px;">Marine Safety</h3>
+      <div class="comp-grid">
+        <div class="comp-card">
+          <div class="comp-name">WaterGuard™</div>
+          <div class="comp-type">AQD Technology (Claimed)</div>
+          <div class="comp-row"><span class="feat">Emergency Detection</span><span class="has">✓ Yes</span></div>
+          <div class="comp-row"><span class="feat">Zero User Input</span><span class="has">✓ Yes</span></div>
+          <div class="comp-row"><span class="feat">Shark Attack Detection</span><span class="has">✓ Yes</span></div>
+          <div class="comp-row"><span class="feat">Satellite Transmission</span><span class="has">✓ Yes (Iridium)</span></div>
+          <div class="comp-row"><span class="feat">Multi-Network Redundancy</span><span class="has">✓ Yes</span></div>
+          <div class="comp-row"><span class="feat">Autonomous AI Classification</span><span class="has">✓ Yes</span></div>
+        </div>
+        <div class="comp-card">
+          <div class="comp-name">ACR ResQLink</div>
+          <div class="comp-type">Personal Locator Beacon</div>
+          <div class="comp-row"><span class="feat">Emergency Detection</span><span class="no">✗ Manual Only</span></div>
+          <div class="comp-row"><span class="feat">Zero User Input</span><span class="no">✗ No</span></div>
+          <div class="comp-row"><span class="feat">Shark Attack Detection</span><span class="no">✗ No</span></div>
+          <div class="comp-row"><span class="feat">Satellite Transmission</span><span class="has">✓ Yes (406MHz)</span></div>
+          <div class="comp-row"><span class="feat">Multi-Network Redundancy</span><span class="no">✗ No</span></div>
+          <div class="comp-row"><span class="feat">Autonomous AI Classification</span><span class="no">✗ No</span></div>
+        </div>
+        <div class="comp-card">
+          <div class="comp-name">Garmin inReach</div>
+          <div class="comp-type">Satellite Communicator</div>
+          <div class="comp-row"><span class="feat">Emergency Detection</span><span class="no">✗ Manual Only</span></div>
+          <div class="comp-row"><span class="feat">Zero User Input</span><span class="no">✗ No</span></div>
+          <div class="comp-row"><span class="feat">Shark Attack Detection</span><span class="no">✗ No</span></div>
+          <div class="comp-row"><span class="feat">Satellite Transmission</span><span class="has">✓ Yes (Iridium)</span></div>
+          <div class="comp-row"><span class="feat">Multi-Network Redundancy</span><span class="no">✗ No</span></div>
+          <div class="comp-row"><span class="feat">Autonomous AI Classification</span><span class="no">✗ No</span></div>
+        </div>
       </div>
     </div>
-    <div class="step reveal d6">
-      <span class="step-num">06</span>
-      <div>
-        <div class="step-name">Application Assembly</div>
-        <p class="step-body">Assemble the seven-section provisional: Title, Cross-Reference, Field, Background, Summary, Brief Description of Drawings, Detailed Description, Claims, Abstract. File via USPTO Patent Center. Select micro entity status (37 C.F.R. § 1.29) if applicable — <strong>the filing fee drops from $320 to $80 per application.</strong> File all related applications on the same day to establish a shared priority date.</p>
+
+    <!-- Competitive Radar Chart -->
+    <div class="chart-grid" style="margin-top:40px;">
+      <div class="chart-card">
+        <h3>AQD vs. Competitors — Feature Coverage</h3>
+        <div class="chart-sub">Radar comparison: AQD Environmental Health System vs. existing solutions (0–10 scale)</div>
+        <div class="chart-wrap">
+          <canvas id="radarChart"></canvas>
+        </div>
+      </div>
+      <div class="chart-card">
+        <h3>Pro Se Patent Success Rates</h3>
+        <div class="chart-sub">Historical patent grant rates: Pro Se vs. professionally represented applicants</div>
+        <div class="chart-wrap">
+          <canvas id="proSeChart"></canvas>
+        </div>
       </div>
     </div>
-    <div class="step reveal d1">
-      <span class="step-num">07</span>
-      <div>
-        <div class="step-name">Portfolio Strategy</div>
-        <p class="step-body">You now have 12 months from filing to convert provisional to non-provisional, build a prototype, find a licensing partner, or raise capital. <strong>The priority date is established. The clock is running. The competitive moat is real.</strong> Use the 12-month window to tell the story, demonstrate the market, and convert patent-pending status into commercial leverage. Do not wait — the non-provisional deadline is absolute.</p>
+  </div>
+</section>
+
+<!-- SWOT -->
+<section id="swot">
+  <div class="container">
+    <div class="section-label">Strategic Analysis</div>
+    <h2>SWOT Analysis</h2>
+    <p style="max-width:720px; color:var(--muted); font-size:15px;">A structured assessment of AQD Technology's internal strengths and weaknesses, and external opportunities and threats from an investor's perspective.</p>
+
+    <div class="swot-grid fade-in">
+      <div class="swot-card s">
+        <div class="swot-label">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          Strengths
+        </div>
+        <ul>
+          <li>Genuinely novel technology claims with no identified direct prior art in any of the three verticals</li>
+          <li>Multi-domain patent portfolio filed in a single priority year — statistically rare for a solo inventor</li>
+          <li>Extremely low cost basis ($320 in filing fees) — massive leverage if patents are granted</li>
+          <li>SmartSand™ filed as non-provisional utility patent — the strongest available form of IP protection</li>
+          <li>Multiple monetization paths: licensing, acquisition, joint venture, or strategic partnership</li>
+          <li>Causal AI + IoT + health documentation is a high-value, high-growth intersection</li>
+          <li>2026 priority year establishes early-mover advantage if patents are granted</li>
+          <li>Complete technology stack (AQD-0001 through 0004) creates defensible ecosystem</li>
+        </ul>
+      </div>
+      <div class="swot-card w">
+        <div class="swot-label">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          Weaknesses
+        </div>
+        <ul>
+          <li>All applications are provisional (except SmartSand) — provisional patents grant NO IP rights until converted</li>
+          <li>Pro se filing: 76% of self-represented applications never result in a granted patent</li>
+          <li>Single-person operation with no disclosed team, advisors, or institutional backing</li>
+          <li>Pre-revenue stage with no disclosed customers, pilots, or letters of intent</li>
+          <li>Website contact form described as "design prototype" — signals early-stage execution</li>
+          <li>One duplicate WaterGuard application filed in error — minor process risk signal</li>
+          <li>No disclosed funding, grants, or institutional support</li>
+          <li>Bridging from patent application to working product requires significant capital and engineering</li>
+        </ul>
+      </div>
+      <div class="swot-card o">
+        <div class="swot-label">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+          Opportunities
+        </div>
+        <ul>
+          <li>Growing regulatory pressure on environmental health documentation creates demand for CEHE-type records</li>
+          <li>EHR integration market projected to grow from $4.8B to $12.1B by 2034 (CAGR 10.8%)</li>
+          <li>IoT in Healthcare market projected to reach $289.2B by 2028 — massive tailwind</li>
+          <li>Rising ocean recreation and water sports participation drives marine safety device demand</li>
+          <li>Construction industry's rapid adoption of smart tools and IoT creates SmartSand™ opportunity</li>
+          <li>Climate change increasing frequency of air quality events drives environmental health monitoring demand</li>
+          <li>Strategic acquisition by large health, insurance, or construction technology companies</li>
+          <li>Patent licensing to established players who want to add causal AI capabilities</li>
+        </ul>
+      </div>
+      <div class="swot-card t">
+        <div class="swot-label">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          Threats
+        </div>
+        <ul>
+          <li>Well-funded incumbents (Google, Apple, Garmin, Honeywell) could develop competing solutions faster</li>
+          <li>USPTO prior art search may uncover undiscovered prior art invalidating claims</li>
+          <li>12-month non-provisional conversion deadline creates time pressure and capital requirement</li>
+          <li>Patent prosecution costs for non-provisional conversion and prosecution can reach $15,000–$30,000+ per application</li>
+          <li>Regulatory hurdles for medicolegal health documentation in healthcare markets</li>
+          <li>Technology risk: claims require significant hardware and software integration to validate</li>
+          <li>Market adoption risk: healthcare and insurance industries are slow to adopt new documentation standards</li>
+        </ul>
       </div>
     </div>
   </div>
+</section>
 
-  <div style="margin-top:80px;padding:60px;background:var(--panel);border:1px solid var(--line);display:grid;grid-template-columns:2fr 1fr;gap:60px;align-items:center" class="reveal">
-    <div>
-      <div style="font-family:var(--ff-mono);font-size:.55rem;letter-spacing:3px;text-transform:uppercase;color:var(--amber);margin-bottom:16px">Coming Soon</div>
-      <h3 style="font-family:var(--ff-display);font-size:2.4rem;color:var(--cream);margin-bottom:16px">The AQD Method™ Course</h3>
-      <p style="font-size:.95rem;line-height:1.8;color:var(--fog)">A structured, self-paced program teaching the complete framework — from pain mapping to USPTO filing. Built for independent inventors, solo entrepreneurs, and anyone with a real problem worth protecting. No law degree required. No institutional backing required. Just a problem you understand deeply and the willingness to document it with precision.</p>
+<!-- RISK PROFILE -->
+<section id="risks">
+  <div class="container">
+    <div class="section-label">Risk Assessment</div>
+    <h2>Investor Risk Profile</h2>
+    <p style="max-width:720px; color:var(--muted); font-size:15px;">AQD Technology presents an asymmetric risk/reward profile typical of early-stage IP plays. The following dimensions capture the key risk factors an investor should evaluate before engaging.</p>
+
+    <div class="risk-grid fade-in">
+      <div class="risk-card">
+        <div class="risk-name">Patent Grant Risk</div>
+        <div class="risk-bar-wrap"><div class="risk-bar high" style="width:85%"></div></div>
+        <div class="risk-level high">HIGH — 85%</div>
+        <div class="risk-desc">76% of pro se applications never result in a granted patent. Professional representation significantly improves odds.</div>
+      </div>
+      <div class="risk-card">
+        <div class="risk-name">Execution / Team Risk</div>
+        <div class="risk-bar-wrap"><div class="risk-bar high" style="width:80%"></div></div>
+        <div class="risk-level high">HIGH — 80%</div>
+        <div class="risk-desc">Single-person operation with no disclosed team, advisors, or institutional support. Scaling requires significant talent acquisition.</div>
+      </div>
+      <div class="risk-card">
+        <div class="risk-name">Capital Risk</div>
+        <div class="risk-bar-wrap"><div class="risk-bar high" style="width:75%"></div></div>
+        <div class="risk-level high">HIGH — 75%</div>
+        <div class="risk-desc">Non-provisional conversion and prosecution requires $15K–$30K+ per application. Product development requires additional capital.</div>
+      </div>
+      <div class="risk-card">
+        <div class="risk-name">Technology Novelty Risk</div>
+        <div class="risk-bar-wrap"><div class="risk-bar medium" style="width:40%"></div></div>
+        <div class="risk-level medium">MEDIUM — 40%</div>
+        <div class="risk-desc">Claims appear genuinely novel with no identified direct prior art. However, USPTO examination may surface undiscovered prior art.</div>
+      </div>
+      <div class="risk-card">
+        <div class="risk-name">Market Timing Risk</div>
+        <div class="risk-bar-wrap"><div class="risk-bar medium" style="width:35%"></div></div>
+        <div class="risk-level medium">MEDIUM — 35%</div>
+        <div class="risk-desc">All three target markets are growing. Environmental health and IoT healthcare are experiencing strong tailwinds in 2026.</div>
+      </div>
+      <div class="risk-card">
+        <div class="risk-name">Competitive Displacement Risk</div>
+        <div class="risk-bar-wrap"><div class="risk-bar medium" style="width:50%"></div></div>
+        <div class="risk-level medium">MEDIUM — 50%</div>
+        <div class="risk-desc">Well-funded incumbents could develop competing solutions. However, 2026 priority dates provide some protection if patents are granted.</div>
+      </div>
+      <div class="risk-card">
+        <div class="risk-name">IP Monetization Risk</div>
+        <div class="risk-bar-wrap"><div class="risk-bar medium" style="width:55%"></div></div>
+        <div class="risk-level medium">MEDIUM — 55%</div>
+        <div class="risk-desc">Only 10–15% of independent inventors successfully license their inventions. Strategic acquisition path may be more viable.</div>
+      </div>
+      <div class="risk-card">
+        <div class="risk-name">Regulatory Risk</div>
+        <div class="risk-bar-wrap"><div class="risk-bar medium" style="width:45%"></div></div>
+        <div class="risk-level medium">MEDIUM — 45%</div>
+        <div class="risk-desc">Healthcare and medicolegal applications face significant regulatory hurdles (FDA, HIPAA, state medical practice laws).</div>
+      </div>
     </div>
-    <div>
-      <button class="btn-primary" onclick="showPage('contact')" style="margin-bottom:12px;display:block">Get Notified at Launch</button>
-      <button class="btn-ghost" onclick="showPage('contact')" style="display:block">Licensing Inquiries</button>
+
+    <!-- Risk/Reward Chart -->
+    <div class="chart-grid" style="margin-top:40px;">
+      <div class="chart-card">
+        <h3>Risk vs. Potential Return</h3>
+        <div class="chart-sub">Comparative positioning of AQD's three invention clusters on risk/reward spectrum</div>
+        <div class="chart-wrap">
+          <canvas id="riskRewardChart"></canvas>
+        </div>
+      </div>
+      <div class="chart-card">
+        <h3>Investment Stage Comparison</h3>
+        <div class="chart-sub">AQD vs. typical early-stage investment benchmarks across key dimensions</div>
+        <div class="chart-wrap">
+          <canvas id="stageChart"></canvas>
+        </div>
+      </div>
     </div>
   </div>
+</section>
 
-  <footer class="site-footer reveal">
-    <p>© 2026 Abdul Qawwee Daniels · AQD Method™ is a trademark of Abdul Qawwee Daniels · Pittsburgh, PA</p>
-    <p>Patent Pending · All Rights Reserved</p>
-  </footer>
-</div>
+<!-- VERDICT -->
+<section id="verdict">
+  <div class="container">
+    <div class="section-label">Investment Verdict</div>
+    <h2>Analyst Assessment</h2>
 
-<!-- ═══════════════════════════════
-     PAGE 5 — INVESTORS
-═══════════════════════════════ -->
-<div id="investors" class="page">
-  <div class="inv-hero-split">
-    <div class="reveal">
-      <div style="font-family:var(--ff-mono);font-size:.6rem;letter-spacing:4px;text-transform:uppercase;color:var(--amber);margin-bottom:24px">For Serious Investors</div>
-      <h2 style="font-family:var(--ff-display);font-size:clamp(48px,6vw,88px);line-height:.92;color:var(--cream)">Five Inventions.<br><em style="color:var(--amber);font-style:italic">One Window.</em></h2>
+    <div class="verdict-box fade-in">
+      <h3>A High-Risk, High-Asymmetry IP Play at the Earliest Possible Stage</h3>
+      <p>AQD Technology represents a genuinely unusual opportunity: a solo inventor who has filed five patent applications across three distinct, high-growth markets in a single priority year, at a total cost of $320. The inventions — particularly the Causal Environmental Health Event System and WaterGuard™ — address documented market gaps with no identified direct prior art equivalents. This is the kind of asymmetric early-stage opportunity that occasionally produces outsized returns in IP licensing and strategic acquisition scenarios.</p>
+      <p>However, the risk profile is commensurately high. All applications are currently provisional (except SmartSand™), granting no IP rights until converted. The pro se filing approach carries a historically high failure rate — approximately 76% of self-represented applications never result in a granted patent. There is no disclosed team, revenue, product prototype, or institutional backing. The website's own contact form is described as a "design prototype."</p>
+      <p>The most credible investment thesis is a <strong>pure IP play</strong>: an investor or strategic partner provides capital for professional patent prosecution (converting provisionals to non-provisionals with professional representation), in exchange for equity or licensing rights. If even one or two of the five patents are granted — particularly AQD-0001 (the flagship CEHE system) or WaterGuard™ — the licensing potential in multi-billion dollar markets could generate significant returns. The SmartSand™ non-provisional is the most immediately actionable asset.</p>
+      <p>Recommended investor profile: <strong>angel investors with IP/licensing expertise</strong>, strategic corporate investors in health tech or marine safety, or patent licensing entities (NPEs) with experience monetizing early-stage IP portfolios.</p>
+      <div class="verdict-tags">
+        <span class="verdict-tag">Stage: Pre-Seed / IP Concept</span>
+        <span class="verdict-tag">Risk: Very High</span>
+        <span class="verdict-tag">Potential: Very High</span>
+        <span class="verdict-tag">Type: IP Licensing Play</span>
+        <span class="verdict-tag">Horizon: 3–7 Years</span>
+        <span class="verdict-tag">Best Path: Strategic Acquisition or Licensing</span>
+      </div>
     </div>
-    <div class="reveal d2" style="padding-top:16px">
-      <p style="font-size:1.05rem;line-height:1.8;color:var(--fog);margin-bottom:20px">This portfolio represents a rare opportunity: a multi-patent, cross-sector invention portfolio filed by a single pro se inventor in a single priority year. Five inventions. Two complete technology systems. Available for licensing, acquisition, joint venture, or strategic partnership.</p>
-      <p style="font-size:1.05rem;line-height:1.8;color:var(--fog);margin-bottom:20px">The AQD Environmental Health Intelligence System addresses a documented gap in environmental health documentation with no direct prior art equivalent. WaterGuard addresses a $2.4B+ marine safety market with no autonomous equivalent on the market. SmartSand — filed as a non-provisional utility patent — targets a $560M projected drywall sander market.</p>
-      <p style="font-size:1.05rem;line-height:1.8;color:var(--fog)">All applications currently in <strong style="color:var(--amber)">NEW</strong> status. Priority dates established Q1–Q2 2026. The 12-month non-provisional window creates a defined and actionable investment timeline.</p>
+
+    <!-- Summary Scorecard -->
+    <div style="margin-top:40px;">
+      <h3 style="margin-bottom:20px;">Investor Scorecard</h3>
+      <div class="chart-grid">
+        <div class="chart-card">
+          <h3>Portfolio Scoring (Out of 10)</h3>
+          <div class="chart-sub">Investor evaluation across key dimensions — higher is better</div>
+          <div class="chart-wrap">
+            <canvas id="scorecardChart"></canvas>
+          </div>
+        </div>
+        <div class="chart-card" style="display:flex; flex-direction:column; justify-content:space-between;">
+          <div>
+            <h3>Key Investment Metrics</h3>
+            <div class="chart-sub">Quick reference for investor decision-making</div>
+          </div>
+          <div style="margin-top:16px;">
+            <div style="display:flex; justify-content:space-between; padding:12px 0; border-bottom:1px solid var(--border); font-size:13px;">
+              <span style="color:var(--muted);">Investment Stage</span>
+              <span style="color:var(--heading); font-weight:600;">Pre-Seed / IP Concept</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; padding:12px 0; border-bottom:1px solid var(--border); font-size:13px;">
+              <span style="color:var(--muted);">Revenue</span>
+              <span style="color:var(--red); font-weight:600;">None Disclosed</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; padding:12px 0; border-bottom:1px solid var(--border); font-size:13px;">
+              <span style="color:var(--muted);">Team Size</span>
+              <span style="color:var(--orange); font-weight:600;">1 (Solo Founder)</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; padding:12px 0; border-bottom:1px solid var(--border); font-size:13px;">
+              <span style="color:var(--muted);">IP Status</span>
+              <span style="color:var(--orange); font-weight:600;">Patent-Pending (Provisional)</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; padding:12px 0; border-bottom:1px solid var(--border); font-size:13px;">
+              <span style="color:var(--muted);">Combined TAM</span>
+              <span style="color:var(--green); font-weight:600;">$7.2B+</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; padding:12px 0; border-bottom:1px solid var(--border); font-size:13px;">
+              <span style="color:var(--muted);">Prior Art (Identified)</span>
+              <span style="color:var(--green); font-weight:600;">None (All Three Verticals)</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; padding:12px 0; border-bottom:1px solid var(--border); font-size:13px;">
+              <span style="color:var(--muted);">Monetization Paths</span>
+              <span style="color:var(--green); font-weight:600;">Licensing / Acquisition / JV</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; padding:12px 0; font-size:13px;">
+              <span style="color:var(--muted);">Overall Risk Rating</span>
+              <span style="color:var(--red); font-weight:700;">VERY HIGH</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
+</section>
 
-  <!-- Market Opportunity -->
-  <div style="font-family:var(--ff-mono);font-size:.6rem;letter-spacing:4px;text-transform:uppercase;color:var(--amber);margin-bottom:32px" class="reveal">Market Opportunity</div>
-  <div class="market-grid">
-    <div class="market-card reveal d1">
-      <h4>Environmental Health Market</h4>
-      <div class="mkt-n">$4.2B</div>
-      <p>Global environmental health monitoring market. No existing system provides autonomous causal event documentation with medicolegal-grade records. AQD-0001 through 0004 address the complete stack.</p>
-    </div>
-    <div class="market-card reveal d2">
-      <h4>Marine Safety Market</h4>
-      <div class="mkt-n">$2.4B+</div>
-      <p>Marine personal safety devices market. WaterGuard is the only autonomous, zero-input emergency detection and satellite transmission system in this category. No direct prior art identified.</p>
-    </div>
-    <div class="market-card reveal d3">
-      <h4>Smart Drywall Tools</h4>
-      <div class="mkt-n">$560M</div>
-      <p>Drywall sander market projected by 2033. 62.88% of electric drywall sander buyers are DIY — the exact segment most likely to over-sand and benefit from SmartSand's automatic surface detection and motor pause.</p>
-    </div>
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <p style="margin-bottom:8px;"><strong style="color:var(--heading);">AQD Technology Investor Analysis</strong> · Prepared May 2026</p>
+    <p>Source: <a href="https://aqd.technology" target="_blank">aqd.technology</a> · USPTO Public Records · Market Research (Grand View Research, MarketsandMarkets, Dataintelo)</p>
+    <p style="margin-top:8px; font-size:11px; color:#475569;">This report is for informational purposes only and does not constitute investment advice. All patent applications are pending and no IP rights have been granted. Market size figures are sourced from third-party research reports and AQD's own investor materials.</p>
   </div>
-
-  <!-- Patent Table -->
-  <div style="font-family:var(--ff-mono);font-size:.6rem;letter-spacing:4px;text-transform:uppercase;color:var(--amber);margin-bottom:20px;margin-top:60px" class="reveal">Complete Patent Filing Record</div>
-  <div class="ptable-wrap reveal d2">
-    <table class="ptable">
-      <thead>
-        <tr>
-          <th>App. Number</th>
-          <th>Filed</th>
-          <th>Type</th>
-          <th>Status</th>
-          <th>Docket</th>
-          <th>Invention</th>
-          <th>Domain</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>64051886</td>
-          <td>04/28/2026</td>
-          <td>Provisional</td>
-          <td><span class="badge">NEW</span></td>
-          <td>—</td>
-          <td style="color:var(--amber2)">WaterGuard™ — Controlling Application</td>
-          <td>Marine Safety</td>
-        </tr>
-        <tr>
-          <td>64051167</td>
-          <td>04/28/2026</td>
-          <td>Provisional</td>
-          <td><span class="badge dup">DUPLICATE</span></td>
-          <td>—</td>
-          <td>WaterGuard / SMESAAS — Same Invention (Duplicate)</td>
-          <td>Marine Safety</td>
-        </tr>
-        <tr>
-          <td>64051026</td>
-          <td>04/28/2026</td>
-          <td><strong style="color:var(--amber)">Non-Provisional Utility</strong></td>
-          <td><span class="badge">NEW</span></td>
-          <td>—</td>
-          <td style="color:var(--amber2)">SmartSand™ — Intelligent Drywall Sanding System</td>
-          <td>Smart Tools</td>
-        </tr>
-        <tr>
-          <td>64038393</td>
-          <td>04/13/2026</td>
-          <td>Provisional</td>
-          <td><span class="badge">NEW</span></td>
-          <td>AQD-0001</td>
-          <td>Causal Environmental Health Event System</td>
-          <td>Env. Health</td>
-        </tr>
-        <tr>
-          <td>64038373</td>
-          <td>04/13/2026</td>
-          <td>Provisional</td>
-          <td><span class="badge">NEW</span></td>
-          <td>AQD-0002</td>
-          <td>Predictive ML Environmental Physiological Events</td>
-          <td>Env. Health / AI</td>
-        </tr>
-        <tr>
-          <td>64038343</td>
-          <td>04/13/2026</td>
-          <td>Provisional</td>
-          <td><span class="badge">NEW</span></td>
-          <td>AQD-0003</td>
-          <td>Distributed Environmental Physiological Network</td>
-          <td>Env. Health / IoT</td>
-        </tr>
-        <tr>
-          <td>64038293</td>
-          <td>04/13/2026</td>
-          <td>Provisional</td>
-          <td><span class="badge">NEW</span></td>
-          <td>AQD-0004</td>
-          <td>Clinical Structuring &amp; Integration of Env. Health Events</td>
-          <td>HealthTech / EHR</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="cta-strip reveal">
-    <div>
-      <h3>Ready to Have a Conversation?</h3>
-      <p>This portfolio is available for licensing, acquisition, joint venture, and strategic partnership discussions. Investor and licensing decks available on request. All inquiries treated as confidential.</p>
-      <p style="font-family:var(--ff-mono);font-size:.6rem;letter-spacing:2px;color:var(--amber);margin-top:16px">Abdul Qawwee Daniels · Pittsburgh, PA · Mahirsheffield@gmail.com · 724-647-0927</p>
-    </div>
-    <div class="cta-btns">
-      <button class="btn-primary" onclick="showPage('contact')">Request Licensing Deck</button>
-      <button class="btn-ghost" onclick="showPage('contact')">Schedule a Call</button>
-    </div>
-  </div>
-
-  <footer class="site-footer reveal">
-    <p>© 2026 AQDTechnology.net · Abdul Qawwee Daniels · USPTO #230085 · Pittsburgh, PA · Pro Se · Micro Entity</p>
-    <p>All patent applications pending. Nothing herein constitutes legal advice or a binding offer.</p>
-  </footer>
-</div>
-
-<!-- ═══════════════════════════════
-     PAGE 6 — CONTACT
-═══════════════════════════════ -->
-<div id="contact" class="page">
-  <div class="contact-left reveal">
-    <h2>Let's<br>Build<br><em>Together.</em></h2>
-    <p>Whether you're an investor, a potential licensing partner, a fellow inventor seeking mentorship in the AQD Method™, or a journalist covering independent innovation — this is the right place to start.</p>
-    <p>All inquiries are treated as confidential. Response time is typically 24–48 hours.</p>
-    <div class="contact-info">
-      <div class="ci"><span class="ci-label">Name</span><span class="ci-val">Abdul Qawwee Daniels</span></div>
-      <div class="ci"><span class="ci-label">Location</span><span class="ci-val">Pittsburgh, Pennsylvania 15215</span></div>
-      <div class="ci"><span class="ci-label">Email</span><span class="ci-val"><a href="mailto:Mahirsheffield@gmail.com">Mahirsheffield@gmail.com</a></span></div>
-      <div class="ci"><span class="ci-label">Phone</span><span class="ci-val"><a href="tel:7246470927">724-647-0927</a></span></div>
-      <div class="ci"><span class="ci-label">Website</span><span class="ci-val"><a href="https://aqd.technology">aqd.technology</a></span></div>
-      <div class="ci"><span class="ci-label">USPTO</span><span class="ci-val">Customer #230085 · Pro Se · Micro Entity</span></div>
-      <div class="ci"><span class="ci-label">Status</span><span class="ci-val">5 Inventions Patent-Pending · 2026 Priority</span></div>
-    </div>
-  </div>
-
-  <div class="contact-right reveal d2">
-    <div style="font-family:var(--ff-mono);font-size:.6rem;letter-spacing:4px;text-transform:uppercase;color:var(--amber);margin-bottom:32px">Send a Message</div>
-    <div class="form-group">
-      <label>Your Name</label>
-      <input type="text" placeholder="Full name">
-    </div>
-    <div class="form-group">
-      <label>Organization</label>
-      <input type="text" placeholder="Company, firm, or independent">
-    </div>
-    <div class="form-group">
-      <label>Email</label>
-      <input type="email" placeholder="your@email.com">
-    </div>
-    <div class="form-group">
-      <label>Inquiry Type</label>
-      <select>
-        <option value="">Select inquiry type</option>
-        <option>Licensing Inquiry — AQD Health Intelligence System</option>
-        <option>Licensing Inquiry — WaterGuard™</option>
-        <option>Licensing Inquiry — SmartSand™</option>
-        <option>Investment / Acquisition Discussion</option>
-        <option>AQD Method™ Mentorship</option>
-        <option>Media / Press Inquiry</option>
-        <option>General Inquiry</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label>Message</label>
-      <textarea placeholder="Tell me about your interest, organization, and what you're looking to build or explore..."></textarea>
-    </div>
-    <button class="btn-primary" style="width:100%" onclick="handleForm()">Send Message</button>
-    <p class="form-note">* This form is currently a design prototype. For immediate inquiries, email Mahirsheffield@gmail.com or call 724-647-0927.</p>
-  </div>
-
-  <footer class="site-footer reveal" style="grid-column:span 2">
-    <p>© 2026 AQDTechnology.net · Abdul Qawwee Daniels · Pittsburgh, PA</p>
-    <p>AQD Method™ · WaterGuard™ · SmartSand™ are trademarks of Abdul Qawwee Daniels</p>
-  </footer>
-</div>
+</footer>
 
 <script>
-// ── CURSOR ──
-const cur=document.getElementById('cur'),cur2=document.getElementById('cur2');
-let mx=0,my=0,rx=0,ry=0;
-document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY});
-(function anim(){rx+=(mx-rx)*.16;ry+=(my-ry)*.16;
-  cur.style.cssText=`left:${mx}px;top:${my}px`;
-  cur2.style.cssText=`left:${rx}px;top:${ry}px`;
-  requestAnimationFrame(anim)})();
+// ── CHART.JS DEFAULTS ──
+Chart.defaults.color = '#94a3b8';
+Chart.defaults.borderColor = '#1e2d45';
+Chart.defaults.font.family = "'Segoe UI', system-ui, sans-serif";
 
-// ── CANVAS PARTICLES ──
-const cv=document.getElementById('bg'),ctx=cv.getContext('2d');
-function resize(){cv.width=innerWidth;cv.height=innerHeight}resize();
-window.addEventListener('resize',resize);
-const nodes=Array.from({length:55},()=>({
-  x:Math.random()*innerWidth,y:Math.random()*innerHeight,
-  vx:(Math.random()-.5)*.35,vy:(Math.random()-.5)*.35,
-  r:Math.random()*1.4+.4
-}));
-(function draw(){
-  ctx.clearRect(0,0,cv.width,cv.height);
-  for(let i=0;i<nodes.length;i++){
-    for(let j=i+1;j<nodes.length;j++){
-      const dx=nodes[i].x-nodes[j].x,dy=nodes[i].y-nodes[j].y;
-      const d=Math.sqrt(dx*dx+dy*dy);
-      if(d<155){
-        ctx.beginPath();
-        ctx.strokeStyle=`rgba(210,170,60,${.12*(1-d/155)})`;
-        ctx.lineWidth=.5;
-        ctx.moveTo(nodes[i].x,nodes[i].y);
-        ctx.lineTo(nodes[j].x,nodes[j].y);
-        ctx.stroke();
-      }
+// ── MARKET BAR CHART ──
+new Chart(document.getElementById('marketBarChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Environmental\nHealth', 'Marine\nSafety', 'Smart\nDrywall Tools'],
+    datasets: [{
+      label: 'Market Size (USD Billions)',
+      data: [4.2, 2.4, 0.56],
+      backgroundColor: ['rgba(34,197,94,0.7)', 'rgba(59,130,246,0.7)', 'rgba(249,115,22,0.7)'],
+      borderColor: ['#22c55e', '#3b82f6', '#f97316'],
+      borderWidth: 1.5,
+      borderRadius: 6,
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      y: { beginAtZero: true, grid: { color: 'rgba(30,45,69,0.8)' }, ticks: { callback: v => '$' + v + 'B' } },
+      x: { grid: { display: false } }
     }
-    ctx.beginPath();
-    ctx.arc(nodes[i].x,nodes[i].y,nodes[i].r,0,Math.PI*2);
-    ctx.fillStyle='rgba(210,170,60,.55)';
-    ctx.fill();
-    nodes[i].x+=nodes[i].vx;nodes[i].y+=nodes[i].vy;
-    if(nodes[i].x<0||nodes[i].x>cv.width)nodes[i].vx*=-1;
-    if(nodes[i].y<0||nodes[i].y>cv.height)nodes[i].vy*=-1;
   }
-  requestAnimationFrame(draw);
-})();
-
-// ── PAGE ROUTING ──
-function showPage(id){
-  document.querySelectorAll('.page').forEach(p=>{p.classList.remove('active')});
-  const pg=document.getElementById(id);
-  pg.classList.add('active');
-  pg.scrollTop=0;
-  window.scrollTo(0,0);
-  // Update desktop nav
-  document.querySelectorAll('.nav-links a').forEach(a=>{
-    a.classList.toggle('active',a.dataset.page===id);
-  });
-  // Update mobile menu active state
-  document.querySelectorAll('.mobile-menu a').forEach(a=>{
-    a.classList.toggle('active',a.dataset.page===id);
-  });
-  // Update bottom nav active state
-  document.querySelectorAll('.bottom-nav a').forEach(a=>{
-    a.classList.toggle('active',a.dataset.page===id);
-  });
-  // Trigger reveals
-  setTimeout(()=>{
-    pg.querySelectorAll('.reveal').forEach(el=>{
-      el.classList.remove('vis');
-    });
-    setTimeout(()=>{
-      const observer=new IntersectionObserver(entries=>{
-        entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis')});
-      },{threshold:.08});
-      pg.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
-    },50);
-  },10);
-}
-
-function toggleMenu(){
-  const menu=document.getElementById('mobileMenu');
-  const burger=document.getElementById('hamburger');
-  menu.classList.toggle('open');
-  burger.classList.toggle('open');
-}
-
-// Hide bottom nav and hamburger on desktop
-function checkNavVisibility(){
-  const isDesktop=window.innerWidth>768;
-  const bottomNav=document.getElementById('bottomNav');
-  const hamburger=document.getElementById('hamburger');
-  if(bottomNav) bottomNav.style.display=isDesktop?'none':'flex';
-  if(hamburger) hamburger.style.display=isDesktop?'none':'flex';
-}
-checkNavVisibility();
-window.addEventListener('resize',checkNavVisibility);
-
-// ── HOVER GLOW ──
-document.querySelectorAll('.inv-card').forEach(c=>{
-  c.addEventListener('mousemove',e=>{
-    const r=c.getBoundingClientRect();
-    const g=c.querySelector('.card-glow');
-    if(g){g.style.left=(e.clientX-r.left-140)+'px';g.style.top=(e.clientY-r.top-140)+'px'}
-  });
 });
 
-// ── INITIAL REVEALS ON HOME ──
-setTimeout(()=>{
-  document.querySelectorAll('#home .reveal').forEach(el=>{
-    const io=new IntersectionObserver(entries=>{
-      entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis')});
-    },{threshold:.05});
-    io.observe(el);
-  });
-},200);
+// ── CONTEXT CHART ──
+new Chart(document.getElementById('contextChart'), {
+  type: 'bar',
+  data: {
+    labels: ['IoT Healthcare\n(2028)', 'Air Quality\n(2030)', 'EHR Integration\n(2034)', 'Wearable Tech\n(2030)', 'RFID Market\n(2034)'],
+    datasets: [{
+      label: 'Projected Market Size (USD Billions)',
+      data: [289.2, 8.89, 12.1, 176.77, 30.47],
+      backgroundColor: 'rgba(59,130,246,0.6)',
+      borderColor: '#3b82f6',
+      borderWidth: 1.5,
+      borderRadius: 6,
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      y: { beginAtZero: true, grid: { color: 'rgba(30,45,69,0.8)' }, ticks: { callback: v => '$' + v + 'B' } },
+      x: { grid: { display: false }, ticks: { font: { size: 10 } } }
+    }
+  }
+});
 
-// ── FORM HANDLER ──
-function handleForm(){
-  alert('Thank you! For immediate inquiries, please email Mahirsheffield@gmail.com or call 724-647-0927.');
+// ── GROWTH CHART ──
+new Chart(document.getElementById('growthChart'), {
+  type: 'line',
+  data: {
+    labels: ['2023', '2024', '2025', '2026', '2027', '2028', '2029', '2030'],
+    datasets: [
+      {
+        label: 'Air Quality Monitoring',
+        data: [4.9, 5.3, 5.65, 5.8, 6.2, 6.6, 7.1, 8.89],
+        borderColor: '#22c55e', backgroundColor: 'rgba(34,197,94,0.1)',
+        tension: 0.4, fill: true, borderWidth: 2, pointRadius: 3
+      },
+      {
+        label: 'IoT Healthcare (÷10)',
+        data: [12.77, 14.5, 17.5, 20.74, 24.0, 28.92, 33.0, 38.0],
+        borderColor: '#3b82f6', backgroundColor: 'rgba(59,130,246,0.1)',
+        tension: 0.4, fill: true, borderWidth: 2, pointRadius: 3
+      },
+      {
+        label: 'EHR Integration',
+        data: [3.2, 3.8, 4.8, 5.5, 6.5, 7.8, 9.5, 11.0],
+        borderColor: '#f0c040', backgroundColor: 'rgba(240,192,64,0.08)',
+        tension: 0.4, fill: true, borderWidth: 2, pointRadius: 3
+      }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11 } } } },
+    scales: {
+      y: { beginAtZero: false, grid: { color: 'rgba(30,45,69,0.8)' }, ticks: { callback: v => '$' + v + 'B' } },
+      x: { grid: { display: false } }
+    }
+  }
+});
+
+// ── PORTFOLIO DONUT ──
+new Chart(document.getElementById('portfolioDonut'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Env. Health (AQD-0001–0004)', 'WaterGuard™', 'SmartSand™'],
+    datasets: [{
+      data: [4, 1, 1],
+      backgroundColor: ['rgba(34,197,94,0.8)', 'rgba(59,130,246,0.8)', 'rgba(249,115,22,0.8)'],
+      borderColor: ['#22c55e', '#3b82f6', '#f97316'],
+      borderWidth: 2,
+      hoverOffset: 8
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11 } } },
+      tooltip: { callbacks: { label: ctx => ` ${ctx.label}: ${ctx.raw} application${ctx.raw > 1 ? 's' : ''}` } }
+    },
+    cutout: '60%'
+  }
+});
+
+// ── RADAR CHART ──
+new Chart(document.getElementById('radarChart'), {
+  type: 'radar',
+  data: {
+    labels: ['Air Quality\nMonitoring', 'Physiological\nMonitoring', 'Causal AI\nCorrelation', 'Medicolegal\nRecords', 'EHR\nIntegration', 'Predictive\nML (72hr)', 'Distributed\nNetwork'],
+    datasets: [
+      {
+        label: 'AQD System (Claimed)',
+        data: [9, 9, 10, 10, 10, 9, 9],
+        borderColor: '#f0c040', backgroundColor: 'rgba(240,192,64,0.15)',
+        borderWidth: 2, pointRadius: 4
+      },
+      {
+        label: 'PurpleAir',
+        data: [8, 0, 0, 0, 0, 0, 6],
+        borderColor: '#3b82f6', backgroundColor: 'rgba(59,130,246,0.1)',
+        borderWidth: 2, pointRadius: 4
+      },
+      {
+        label: 'EPA AQS',
+        data: [7, 0, 0, 0, 0, 0, 8],
+        borderColor: '#94a3b8', backgroundColor: 'rgba(148,163,184,0.08)',
+        borderWidth: 2, pointRadius: 4
+      }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11 } } } },
+    scales: {
+      r: {
+        beginAtZero: true, max: 10,
+        grid: { color: 'rgba(30,45,69,0.8)' },
+        ticks: { display: false },
+        pointLabels: { font: { size: 10 } }
+      }
+    }
+  }
+});
+
+// ── PRO SE CHART ──
+new Chart(document.getElementById('proSeChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Pro Se (Self-Represented)', 'Professionally Represented'],
+    datasets: [
+      {
+        label: 'Patent Granted (%)',
+        data: [24, 65],
+        backgroundColor: ['rgba(239,68,68,0.7)', 'rgba(34,197,94,0.7)'],
+        borderColor: ['#ef4444', '#22c55e'],
+        borderWidth: 1.5, borderRadius: 6
+      },
+      {
+        label: 'Never Granted (%)',
+        data: [76, 35],
+        backgroundColor: ['rgba(239,68,68,0.2)', 'rgba(34,197,94,0.2)'],
+        borderColor: ['#ef4444', '#22c55e'],
+        borderWidth: 1.5, borderRadius: 6
+      }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11 } } } },
+    scales: {
+      y: { beginAtZero: true, max: 100, grid: { color: 'rgba(30,45,69,0.8)' }, ticks: { callback: v => v + '%' } },
+      x: { grid: { display: false } }
+    }
+  }
+});
+
+// ── RISK/REWARD SCATTER ──
+new Chart(document.getElementById('riskRewardChart'), {
+  type: 'scatter',
+  data: {
+    datasets: [
+      {
+        label: 'Env. Health System (AQD-0001–0004)',
+        data: [{ x: 8.5, y: 9.5 }],
+        backgroundColor: 'rgba(34,197,94,0.8)',
+        pointRadius: 18, pointHoverRadius: 22
+      },
+      {
+        label: 'WaterGuard™',
+        data: [{ x: 7.5, y: 8.5 }],
+        backgroundColor: 'rgba(59,130,246,0.8)',
+        pointRadius: 14, pointHoverRadius: 18
+      },
+      {
+        label: 'SmartSand™',
+        data: [{ x: 6.0, y: 7.0 }],
+        backgroundColor: 'rgba(249,115,22,0.8)',
+        pointRadius: 12, pointHoverRadius: 16
+      },
+      {
+        label: 'Typical Seed-Stage Startup',
+        data: [{ x: 6.5, y: 6.5 }],
+        backgroundColor: 'rgba(148,163,184,0.5)',
+        pointRadius: 10, pointHoverRadius: 14
+      }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11 } } } },
+    scales: {
+      x: { min: 0, max: 10, title: { display: true, text: 'Risk Level →', font: { size: 11 } }, grid: { color: 'rgba(30,45,69,0.8)' } },
+      y: { min: 0, max: 10, title: { display: true, text: 'Potential Return →', font: { size: 11 } }, grid: { color: 'rgba(30,45,69,0.8)' } }
+    }
+  }
+});
+
+// ── STAGE COMPARISON RADAR ──
+new Chart(document.getElementById('stageChart'), {
+  type: 'radar',
+  data: {
+    labels: ['Novelty of\nIdea', 'IP\nProtection', 'Market\nSize', 'Team\nStrength', 'Revenue\nTraction', 'Execution\nReadiness', 'Funding\nStatus'],
+    datasets: [
+      {
+        label: 'AQD Technology',
+        data: [9.5, 5, 8, 2, 0, 2, 1],
+        borderColor: '#f0c040', backgroundColor: 'rgba(240,192,64,0.15)',
+        borderWidth: 2, pointRadius: 4
+      },
+      {
+        label: 'Typical Pre-Seed Startup',
+        data: [6, 4, 6, 5, 2, 5, 4],
+        borderColor: '#94a3b8', backgroundColor: 'rgba(148,163,184,0.08)',
+        borderWidth: 2, pointRadius: 4
+      }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11 } } } },
+    scales: {
+      r: {
+        beginAtZero: true, max: 10,
+        grid: { color: 'rgba(30,45,69,0.8)' },
+        ticks: { display: false },
+        pointLabels: { font: { size: 10 } }
+      }
+    }
+  }
+});
+
+// ── SCORECARD ──
+new Chart(document.getElementById('scorecardChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Technology\nNovelty', 'Market\nOpportunity', 'IP\nStrength', 'Team &\nExecution', 'Financial\nTraction', 'Competitive\nMoat', 'Investor\nReadiness'],
+    datasets: [{
+      label: 'Score (out of 10)',
+      data: [9.5, 8.5, 5.0, 2.0, 0.5, 7.5, 4.0],
+      backgroundColor: [
+        'rgba(34,197,94,0.7)', 'rgba(34,197,94,0.7)', 'rgba(249,115,22,0.7)',
+        'rgba(239,68,68,0.7)', 'rgba(239,68,68,0.7)', 'rgba(34,197,94,0.7)', 'rgba(249,115,22,0.7)'
+      ],
+      borderColor: ['#22c55e','#22c55e','#f97316','#ef4444','#ef4444','#22c55e','#f97316'],
+      borderWidth: 1.5, borderRadius: 6
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      y: { beginAtZero: true, max: 10, grid: { color: 'rgba(30,45,69,0.8)' } },
+      x: { grid: { display: false }, ticks: { font: { size: 10 } } }
+    }
+  }
+});
+
+// ── CEHE MULTI-CHANNEL EVENT CHART ──
+new Chart(document.getElementById('ceheEventChart'), {
+  type: 'line',
+  data: {
+    datasets: [
+      {
+        label: 'Causal event (t=0)',
+        data: [{x:0, y:0}, {x:0, y:1.05}],
+        borderColor: 'rgba(240,192,64,0.65)',
+        borderWidth: 1.5,
+        borderDash: [5, 4],
+        pointRadius: 0,
+        fill: false,
+        tension: 0
+      },
+      {
+        label: 'Channel 1',
+        data: [
+          {x:-10, y:0.00}, {x:-5, y:0.00}, {x:0, y:0.00}, {x:5, y:0.05},
+          {x:10, y:0.20}, {x:15, y:0.55}, {x:20, y:0.90}, {x:23, y:1.00},
+          {x:25, y:0.95}, {x:30, y:0.80}, {x:35, y:0.60}, {x:40, y:0.45},
+          {x:45, y:0.35}, {x:50, y:0.28}, {x:55, y:0.22}, {x:60, y:0.18}
+        ],
+        borderColor: '#f0c040',
+        backgroundColor: 'rgba(240,192,64,0.05)',
+        borderWidth: 2.5,
+        pointRadius: 2.5,
+        tension: 0.4,
+        fill: false
+      },
+      {
+        label: 'Channel 2',
+        data: [
+          {x:-10, y:0.00}, {x:-5, y:0.00}, {x:0, y:0.00}, {x:5, y:0.03},
+          {x:10, y:0.15}, {x:15, y:0.45}, {x:20, y:0.78}, {x:23, y:0.85},
+          {x:25, y:0.82}, {x:30, y:0.62}, {x:35, y:0.42}, {x:40, y:0.28},
+          {x:45, y:0.20}, {x:50, y:0.15}, {x:55, y:0.12}, {x:60, y:0.10}
+        ],
+        borderColor: '#3b82f6',
+        backgroundColor: 'rgba(59,130,246,0.05)',
+        borderWidth: 2.5,
+        pointRadius: 2.5,
+        tension: 0.4,
+        fill: false
+      },
+      {
+        label: 'Channel 3',
+        data: [
+          {x:-10, y:0.00}, {x:-5, y:0.00}, {x:0, y:0.00}, {x:5, y:0.02},
+          {x:10, y:0.10}, {x:15, y:0.35}, {x:20, y:0.58}, {x:23, y:0.65},
+          {x:25, y:0.62}, {x:30, y:0.45}, {x:35, y:0.30}, {x:40, y:0.20},
+          {x:45, y:0.14}, {x:50, y:0.10}, {x:55, y:0.08}, {x:60, y:0.06}
+        ],
+        borderColor: '#22c55e',
+        backgroundColor: 'rgba(34,197,94,0.05)',
+        borderWidth: 2.5,
+        pointRadius: 2.5,
+        tension: 0.4,
+        fill: false
+      },
+      {
+        label: 'Channel 4',
+        data: [
+          {x:-10, y:0.00}, {x:-5, y:0.00}, {x:0, y:0.00}, {x:5, y:0.01},
+          {x:10, y:0.08}, {x:15, y:0.25}, {x:20, y:0.45}, {x:23, y:0.50},
+          {x:25, y:0.46}, {x:30, y:0.30}, {x:35, y:0.18}, {x:40, y:0.12},
+          {x:45, y:0.08}, {x:50, y:0.05}, {x:55, y:0.03}, {x:60, y:0.02}
+        ],
+        borderColor: '#f97316',
+        backgroundColor: 'rgba(249,115,22,0.05)',
+        borderWidth: 2.5,
+        pointRadius: 2.5,
+        tension: 0.4,
+        fill: false
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    interaction: { intersect: false, mode: 'index' },
+    plugins: {
+      legend: {
+        position: 'top',
+        labels: { color: '#e2e8f0', boxWidth: 14, padding: 14, font: { size: 12 }, filter: (item) => item.text !== 'Causal event (t=0)' }
+      },
+      tooltip: {
+        backgroundColor: 'rgba(10,14,26,0.95)',
+        borderColor: '#1e2d45',
+        borderWidth: 1,
+        titleColor: '#f0c040',
+        bodyColor: '#e2e8f0',
+        callbacks: {
+          title: (items) => 't = ' + items[0].parsed.x + 's',
+          label: (item) => item.dataset.label + ': ' + item.parsed.y.toFixed(2)
+        }
+      }
+    },
+    scales: {
+      x: {
+        type: 'linear',
+        min: -10,
+        max: 60,
+        title: { display: true, text: 'Seconds relative to causal event', color: '#94a3b8', font: { size: 12 } },
+        grid: { color: 'rgba(30,45,69,0.6)' },
+        ticks: { color: '#94a3b8', stepSize: 10 }
+      },
+      y: {
+        beginAtZero: true,
+        max: 1.1,
+        title: { display: true, text: 'Normalized response', color: '#94a3b8', font: { size: 12 } },
+        grid: { color: 'rgba(30,45,69,0.6)' },
+        ticks: { color: '#94a3b8', stepSize: 0.25 }
+      }
+    }
+  }
+});
+
+// ── TAB SWITCHING ──
+function switchTab(tab) {
+  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  event.target.classList.add('active');
 }
+
+// ── SCROLL ANIMATIONS ──
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+// ── ACTIVE NAV HIGHLIGHT ──
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('nav a');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => { if (window.scrollY >= s.offsetTop - 80) current = s.id; });
+  navLinks.forEach(a => {
+    a.classList.remove('active');
+    if (a.getAttribute('href') === '#' + current) a.classList.add('active');
+  });
+});
 </script>
 </body>
 </html>
