@@ -1204,6 +1204,143 @@ nav{
     </table>
   </div>
 
+  <!-- ═══════════════════════════════
+       REDUCTION TO PRACTICE (Prototype)
+  ═══════════════════════════════ -->
+  <div style="font-family:var(--ff-mono);font-size:.6rem;letter-spacing:4px;text-transform:uppercase;color:var(--amber);margin-bottom:32px;margin-top:80px" class="reveal">Reduction to Practice</div>
+
+  <div class="reveal d1" style="margin-bottom:48px">
+    <h3 style="font-family:var(--ff-display);font-size:clamp(34px,4.5vw,52px);line-height:1.05;color:var(--cream);margin-bottom:18px">CEHE v1 — <em style="color:var(--amber);font-style:italic">Operational.</em></h3>
+    <p style="font-size:1.05rem;line-height:1.8;color:var(--fog);max-width:760px;margin-bottom:14px">As of May 24, 2026, a working multi-sensor reference prototype empirically validates the foundational claims of the AQD Environmental Health Intelligence System.</p>
+    <p style="font-size:1.05rem;line-height:1.8;color:var(--fog);max-width:760px">The CEHE v1 node has demonstrated continuous autonomous monitoring, multi-modal sensor integration, and — most critically — temporally correlated multi-channel response to a single causal stimulus: the core signal pattern protected under AQD-0001.</p>
+  </div>
+
+  <!-- Prototype metrics -->
+  <div class="market-grid reveal d2" style="grid-template-columns:repeat(4,1fr);margin-bottom:80px">
+    <div class="market-card">
+      <h4>Data Points</h4>
+      <div class="mkt-n">3,537+</div>
+      <p>Captured across multi-hour autonomous deployment.</p>
+    </div>
+    <div class="market-card">
+      <h4>Unattended Runtime</h4>
+      <div class="mkt-n">10 hr</div>
+      <p>Continuous overnight operation with multi-hour stability validated.</p>
+    </div>
+    <div class="market-card">
+      <h4>Channels Correlated</h4>
+      <div class="mkt-n">4</div>
+      <p>Independent environmental modalities, sub-second time-synchronized.</p>
+    </div>
+    <div class="market-card">
+      <h4>Sample Drop Rate</h4>
+      <div class="mkt-n">&lt;0.1%</div>
+      <p>Persistent structured data output across the full deployment.</p>
+    </div>
+  </div>
+
+  <!-- Multi-channel chart -->
+  <div class="reveal d3" style="margin-bottom:80px">
+    <div style="font-family:var(--ff-mono);font-size:.55rem;letter-spacing:3px;text-transform:uppercase;color:var(--amber);margin-bottom:14px">Multi-Channel Causal Event Response</div>
+    <p style="font-size:.92rem;line-height:1.75;color:var(--mist);max-width:760px;margin-bottom:28px;font-style:italic">Normalized response across four independent environmental channels following a single causal stimulus at t = 0. Channel identities suppressed for IP-protection purposes. The synchronized onset, distinct per-channel peak amplitudes, and coordinated return-to-baseline pattern is the foundational signature claimed in our pending applications.</p>
+
+    <div style="background:var(--panel);border:1px solid var(--line);padding:32px 24px 24px">
+      <svg viewBox="0 0 720 320" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block" role="img" aria-label="Line chart showing four environmental sensor channels responding synchronously to a single causal event at time zero, all channels peaking approximately 23 seconds after the event marker">
+        <!-- Grid lines -->
+        <g stroke="rgba(210,170,60,0.08)" stroke-width="1">
+          <line x1="70" y1="50" x2="690" y2="50"/>
+          <line x1="70" y1="105" x2="690" y2="105"/>
+          <line x1="70" y1="160" x2="690" y2="160"/>
+          <line x1="70" y1="215" x2="690" y2="215"/>
+          <line x1="70" y1="270" x2="690" y2="270"/>
+        </g>
+
+        <!-- Axes -->
+        <line x1="70" y1="50" x2="70" y2="270" stroke="rgba(210,170,60,0.25)" stroke-width="1"/>
+        <line x1="70" y1="270" x2="690" y2="270" stroke="rgba(210,170,60,0.25)" stroke-width="1"/>
+
+        <!-- Y-axis labels -->
+        <text x="60" y="54" text-anchor="end" fill="rgba(240,235,224,0.4)" font-size="10" font-family="DM Mono, monospace" letter-spacing="1">1.0</text>
+        <text x="60" y="109" text-anchor="end" fill="rgba(240,235,224,0.4)" font-size="10" font-family="DM Mono, monospace" letter-spacing="1">0.75</text>
+        <text x="60" y="164" text-anchor="end" fill="rgba(240,235,224,0.4)" font-size="10" font-family="DM Mono, monospace" letter-spacing="1">0.5</text>
+        <text x="60" y="219" text-anchor="end" fill="rgba(240,235,224,0.4)" font-size="10" font-family="DM Mono, monospace" letter-spacing="1">0.25</text>
+        <text x="60" y="274" text-anchor="end" fill="rgba(240,235,224,0.4)" font-size="10" font-family="DM Mono, monospace" letter-spacing="1">0</text>
+
+        <!-- X-axis labels -->
+        <text x="70" y="290" text-anchor="middle" fill="rgba(240,235,224,0.4)" font-size="10" font-family="DM Mono, monospace" letter-spacing="1">t-10s</text>
+        <text x="225" y="290" text-anchor="middle" fill="rgba(240,235,224,0.4)" font-size="10" font-family="DM Mono, monospace" letter-spacing="1">t=0</text>
+        <text x="380" y="290" text-anchor="middle" fill="rgba(240,235,224,0.4)" font-size="10" font-family="DM Mono, monospace" letter-spacing="1">t+20s</text>
+        <text x="535" y="290" text-anchor="middle" fill="rgba(240,235,224,0.4)" font-size="10" font-family="DM Mono, monospace" letter-spacing="1">t+40s</text>
+        <text x="690" y="290" text-anchor="middle" fill="rgba(240,235,224,0.4)" font-size="10" font-family="DM Mono, monospace" letter-spacing="1">t+60s</text>
+
+        <!-- Axis titles -->
+        <text x="380" y="310" text-anchor="middle" fill="rgba(240,235,224,0.55)" font-size="10" font-family="DM Mono, monospace" letter-spacing="2" text-transform="uppercase">Time relative to causal event</text>
+        <text x="22" y="160" text-anchor="middle" fill="rgba(240,235,224,0.55)" font-size="10" font-family="DM Mono, monospace" letter-spacing="2" transform="rotate(-90 22 160)">Normalized response</text>
+
+        <!-- Event marker (vertical dashed line at t=0) -->
+        <line x1="225" y1="50" x2="225" y2="270" stroke="#d2aa3c" stroke-width="1" stroke-dasharray="3,4" opacity="0.6"/>
+        <text x="231" y="62" fill="#d2aa3c" font-size="9.5" font-family="DM Mono, monospace" letter-spacing="2" font-weight="500">CAUSAL EVENT</text>
+
+        <!-- Channel 1: lightest amber, fastest/strongest -->
+        <path d="M 70 270 L 225 270 Q 280 245 335 145 Q 380 55 410 55 Q 470 75 535 170 Q 610 240 690 258"
+              fill="none" stroke="#f0cc6e" stroke-width="2" opacity="0.95"/>
+
+        <!-- Channel 2: primary amber -->
+        <path d="M 70 270 L 225 270 Q 285 240 345 165 Q 385 80 420 75 Q 485 95 545 165 Q 625 230 690 250"
+              fill="none" stroke="#d2aa3c" stroke-width="2" opacity="0.95"/>
+
+        <!-- Channel 3: deeper amber/gold -->
+        <path d="M 70 270 L 225 270 Q 285 255 345 195 Q 390 130 425 125 Q 485 145 545 190 Q 625 240 690 262"
+              fill="none" stroke="#c89030" stroke-width="2" opacity="0.9"/>
+
+        <!-- Channel 4: rust -->
+        <path d="M 70 270 L 225 270 Q 285 262 335 220 Q 385 165 415 160 Q 465 175 515 215 Q 590 252 690 266"
+              fill="none" stroke="#b85c2a" stroke-width="2" opacity="0.9"/>
+
+        <!-- Legend -->
+        <g font-family="DM Mono, monospace" font-size="9" letter-spacing="1">
+          <rect x="535" y="68" width="148" height="86" fill="rgba(10,12,15,0.85)" stroke="rgba(210,170,60,0.2)" stroke-width="1"/>
+          <line x1="546" y1="84" x2="566" y2="84" stroke="#f0cc6e" stroke-width="2"/>
+          <text x="572" y="87" fill="rgba(240,235,224,0.75)">Channel 1</text>
+          <line x1="546" y1="102" x2="566" y2="102" stroke="#d2aa3c" stroke-width="2"/>
+          <text x="572" y="105" fill="rgba(240,235,224,0.75)">Channel 2</text>
+          <line x1="546" y1="120" x2="566" y2="120" stroke="#c89030" stroke-width="2"/>
+          <text x="572" y="123" fill="rgba(240,235,224,0.75)">Channel 3</text>
+          <line x1="546" y1="138" x2="566" y2="138" stroke="#b85c2a" stroke-width="2"/>
+          <text x="572" y="141" fill="rgba(240,235,224,0.75)">Channel 4</text>
+        </g>
+      </svg>
+    </div>
+    <p style="font-size:.85rem;line-height:1.7;color:var(--mist);max-width:760px;margin-top:18px;font-style:italic">All four channels demonstrate synchronized response onset, distinct peak amplitudes characteristic of their physical relationship to the stimulus, and coordinated return-to-baseline decay — the foundational signal pattern protected under our pending patent claims.</p>
+  </div>
+
+  <!-- Validated Capabilities -->
+  <div style="font-family:var(--ff-mono);font-size:.6rem;letter-spacing:4px;text-transform:uppercase;color:var(--amber);margin-bottom:32px" class="reveal d4">Validated Capabilities</div>
+  <div class="market-grid reveal d4" style="grid-template-columns:repeat(2,1fr);margin-bottom:60px">
+    <div class="market-card">
+      <h4>Continuous Autonomous Monitoring</h4>
+      <p style="margin-bottom:0">Sustained unattended deployment across multi-hour runtime with sub-percent sample loss. Persistent structured data output suitable for downstream correlation analysis and machine learning pipelines.</p>
+    </div>
+    <div class="market-card">
+      <h4>Multi-Modal Sensor Integration</h4>
+      <p style="margin-bottom:0">Multiple independent environmental modalities operating simultaneously on a single autonomous monitoring node with sub-second time synchronization across all channels.</p>
+    </div>
+    <div class="market-card">
+      <h4>Temporally Correlated Event Detection</h4>
+      <p style="margin-bottom:0">Empirical demonstration of multi-channel response to a single causal stimulus — captured, time-synchronized, and archived. Synchronized onset, distinct per-channel peak amplitudes, coordinated return-to-baseline.</p>
+    </div>
+    <div class="market-card">
+      <h4>Defensible Reduction-to-Practice Evidence</h4>
+      <p style="margin-bottom:0">Working prototype, archived sensor data, dated and signed validation records, and third-party-timestamped documentation form a defensible reduction-to-practice record supporting all four EHIS provisional applications.</p>
+    </div>
+  </div>
+
+  <!-- Investor note -->
+  <div class="reveal d5" style="background:var(--panel);border-left:3px solid var(--amber);padding:28px 32px;margin-bottom:60px">
+    <div style="font-family:var(--ff-mono);font-size:.55rem;letter-spacing:3px;text-transform:uppercase;color:var(--amber);margin-bottom:12px">Why this matters</div>
+    <p style="font-size:1rem;line-height:1.8;color:var(--fog);margin:0">Provisional patents establish a priority date but their value depends entirely on the strength of the disclosed methods. A working reference prototype — with measurable, archived, empirical validation — materially strengthens the position of all four EHIS provisional applications when converted to non-provisionals. The portfolio has moved from <em style="color:var(--amber2);font-style:italic">patent claims on paper</em> to <em style="color:var(--amber2);font-style:italic">patent claims backed by working technology</em>.</p>
+  </div>
+
   <div class="cta-strip reveal">
     <div>
       <h3>Ready to Have a Conversation?</h3>
